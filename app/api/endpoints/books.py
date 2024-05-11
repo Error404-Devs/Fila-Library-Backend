@@ -1,20 +1,38 @@
 from typing import List
-
 from fastapi import APIRouter, HTTPException
-
 from app.api.utils.books import *
 from app.api.schemas.books import *
+
+from fastapi_pagination import Page, add_pagination, paginate
+from fastapi_pagination.utils import disable_installed_extensions_check
 
 books_router = APIRouter(tags=["Books"])
 
 
-@books_router.get("/books", response_model=List[BookResponse])
-def books_get():
-    response, error = get_books()
-    print(response)
+@books_router.get("/books", response_model=Page[BookResponse])
+def books_get(title: str = None,
+              category: str = None,
+              publisher: str = None,
+              author_id: str = None,
+              location: str = None,
+              year: int = None):
+    response, error = get_books(title=title,
+                                category=category,
+                                publisher=publisher,
+                                author_id=author_id,
+                                location=location,
+                                year=year)
     if error:
         raise HTTPException(status_code=500, detail=error)
-    return response
+
+    disable_installed_extensions_check()
+    if response:
+        return paginate(response)
+    else:
+        return []
+
+
+add_pagination(books_router)
 
 
 @books_router.post("/books", response_model=BookResponse)
@@ -24,3 +42,5 @@ def book_register(data: Book):
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
+
+

@@ -36,9 +36,15 @@ class DataBase:
     # BOOKS
 
     @staticmethod
-    def get_books():
+    def get_books(title, category, publisher, author_id, location, year):
         with session_scope() as session:
-            return get_books(session)
+            return get_books(session=session,
+                             title=title,
+                             category=category,
+                             publisher=publisher,
+                             author_id=author_id,
+                             location=location,
+                             year=year)
 
     @staticmethod
     def register_book(id, title, category, collection_id, publisher_id, author_id,

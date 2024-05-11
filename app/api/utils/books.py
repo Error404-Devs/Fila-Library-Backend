@@ -1,17 +1,22 @@
 from datetime import datetime
 from uuid import uuid4
-from pydantic import BaseModel
 from app.db.database import db
 
 
-def get_books():
-    return db.get_books()
+def get_books(title, category, publisher, author_id, location, year):
+    return db.get_books(title=title,
+                        category=category,
+                        publisher=publisher,
+                        author_id=author_id,
+                        location=location,
+                        year=year)
 
 
 def register_book(book_data):
     book_id = str(uuid4())
     created_at = datetime.utcnow()
     book_data["id"] = book_id
+    book_data["created_at"] = created_at
     # Book register
 
     db.register_book(id=book_id,
@@ -30,13 +35,10 @@ def register_book(book_data):
     # If copies are found in book_data register them in inventory
 
     copies = int(book_data.get("copies"))
-    while copies:
-        copy_id = 1500-copies
+    for copy in range(1, copies+1):
 
-        db.register_copy(id=copy_id,
+        db.register_copy(id=copy,
                          book_id=book_id,
                          status=False)
-
-        copies = copies - 1
 
     return book_data, None

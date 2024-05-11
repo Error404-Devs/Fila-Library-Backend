@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 from uuid import UUID
 
@@ -30,3 +31,7 @@ class BookResponse(BaseModel):
     place_of_publication: Optional[str]
     ISBN: Optional[str]
     price: Optional[str]
+    created_at: datetime
+
+    class Config:
+        form_attributes = True
