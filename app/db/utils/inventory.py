@@ -26,3 +26,18 @@ def register_copy(session, id, book_id, status):
         error = str(e.__dict__['orig'])
         print(error)
         return error
+
+
+def update_inventory_copy(session, inventory_id):
+    try:
+        copy = session.query(Inventory).filter(Inventory.id == inventory_id).first()
+        if copy:
+            copy.status = True
+            session.commit()
+            return True, None
+        else:
+            return False, "Copy from inventory not found"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error

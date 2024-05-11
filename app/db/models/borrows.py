@@ -9,7 +9,7 @@ class Borrows(Base):
     __tablename__ = "borrows"
 
     id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
-    person_id = Column(UUID(as_uuid=True), ForeignKey("persons.id"), nullable=False)
+    person_id = Column(UUID(as_uuid=True), nullable=False) # Require person foreign key
     inventory_id = Column(UUID(as_uuid=True), ForeignKey("inventory.id"), nullable=False)
     book_id = Column(UUID(as_uuid=True), ForeignKey("books.id"), nullable=False)
     borrow_date = Column(TIMESTAMP, nullable=False)
