@@ -13,3 +13,16 @@ def get_publishers(session):
         error = str(e.__dict__['orig'])
         print(error)
         return error
+
+
+def create_publisher(session, publisher_id, name):
+    try:
+        obj = Publishers(id=publisher_id,
+                         name=name)
+        session.add(obj)
+        return obj, None
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
