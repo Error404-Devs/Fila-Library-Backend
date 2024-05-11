@@ -10,7 +10,7 @@ from app.db.utils.books import *
 from app.db.utils.authors import *
 from app.db.utils.collections import *
 from app.db.utils.publishers import *
-
+from app.db.utils.inventory import *
 
 engine = create_engine(f'postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{DB_PORT}/{DB_NAME}')
 
@@ -40,6 +40,25 @@ class DataBase:
         with session_scope() as session:
             return get_books(session)
 
+    @staticmethod
+    def register_book(id, title, category, collection_id, publisher_id, author_id,
+                      UDC, year_of_publication, place_of_publication, ISBN, price, created_at):
+        with session_scope() as session:
+            return register_book(session=session,
+                                 id=id,
+                                 title=title,
+                                 category=category,
+                                 collection_id=collection_id,
+                                 publisher_id=publisher_id,
+                                 author_id=author_id,
+                                 UDC=UDC,
+                                 year_of_publication=year_of_publication,
+                                 place_of_publication=place_of_publication,
+                                 ISBN=ISBN,
+                                 price=price,
+                                 created_at=created_at)
+
+
     # AUTHORS
 
     @staticmethod
@@ -61,5 +80,19 @@ class DataBase:
         with session_scope() as session:
             return get_publishers(session)
 
+    # INVENTORY
+
+    @staticmethod
+    def register_copy(id, book_id, status):
+        with session_scope() as session:
+            return register_copy(session=session,
+                                  id=id,
+                                  book_id=book_id,
+                                  status=status)
+
+    @staticmethod
+    def get_book_inventory(book_id):
+        with session_scope() as session:
+            return get_book_inventory(session=session, book_id=book_id)
 
 db = DataBase()
