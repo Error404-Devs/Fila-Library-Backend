@@ -11,6 +11,7 @@ from app.db.utils.authors import *
 from app.db.utils.collections import *
 from app.db.utils.publishers import *
 from app.db.utils.inventory import *
+from app.db.utils.borrows import *
 
 engine = create_engine(f'postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{DB_PORT}/{DB_NAME}')
 
@@ -97,7 +98,7 @@ class DataBase:
     def create_publisher(publisher_id, name):
         with session_scope() as session:
             return create_publisher(session=session,
-                                    id=publisher_id,
+                                    publisher_id=publisher_id,
                                     name=name)
 
     # INVENTORY
@@ -114,6 +115,20 @@ class DataBase:
     def get_book_inventory(book_id):
         with session_scope() as session:
             return get_book_inventory(session=session, book_id=book_id)
+
+    # BORROWS
+
+    @staticmethod
+    def create_borrow(borrow_id, person_id, inventory_id, book_id, borrow_date, due_date, status):
+        with session_scope() as session:
+            return create_borrow(session=session,
+                                 borrow_id=borrow_id,
+                                 person_id=person_id,
+                                 inventory_id=inventory_id,
+                                 book_id=book_id,
+                                 borrow_date=borrow_date,
+                                 due_date=due_date,
+                                 status=status)
 
 
 db = DataBase()
