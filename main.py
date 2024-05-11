@@ -6,11 +6,11 @@ from app.api.endpoints.authors import authors_router
 from app.api.endpoints.publishers import publishers_router
 from app.api.endpoints.collections import collections_router
 
-router = FastAPI()
+app = FastAPI()
 
 origins = ["http://localhost:5173"]
 
-router.add_middleware(
+app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
@@ -18,13 +18,13 @@ router.add_middleware(
     allow_headers=["*"],
 )
 
-router.include_router(books_router, prefix="/api")
-router.include_router(authors_router, prefix="/api")
-router.include_router(publishers_router, prefix="/api")
-router.include_router(collections_router, prefix="/api")
+app.include_router(books_router, prefix="/api")
+app.include_router(authors_router, prefix="/api")
+app.include_router(publishers_router, prefix="/api")
+app.include_router(collections_router, prefix="/api")
 
 
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(router, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
