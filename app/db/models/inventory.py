@@ -21,11 +21,12 @@ class Inventory(Base):
 
     @staticmethod
     def serialize_copies(copies):
-        serialized_copies = {}
+        serialized_copies = []
         for copy in copies:
-            serialized_copies[str(copy.id)] = {
+            serialized_copy = {
                 "id": str(copy.id),
                 "book_id": str(copy.book_id),
                 "status": str(copy.status)
             }
+            serialized_copies.append(serialized_copy)
         return serialized_copies
