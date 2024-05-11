@@ -8,6 +8,9 @@ Base = declarative_base()
 
 from app.db.utils.books import *
 from app.db.utils.authors import *
+from app.db.utils.collections import *
+from app.db.utils.publishers import *
+
 
 engine = create_engine(f'postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{DB_PORT}/{DB_NAME}')
 
@@ -43,5 +46,20 @@ class DataBase:
     def get_authors():
         with session_scope() as session:
             return get_authors(session)
+
+    # COLLECTIONS
+
+    @staticmethod
+    def get_collections():
+        with session_scope() as session:
+            return get_collections(session)
+
+    # PUBLISHERS
+
+    @staticmethod
+    def get_publishers():
+        with session_scope() as session:
+            return get_publishers(session)
+
 
 db = DataBase()

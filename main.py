@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.endpoints.books import books_router
 from app.api.endpoints.authors import authors_router
+from app.api.endpoints.publishers import publishers_router
+from app.api.endpoints.collections import collections_router
 
 router = FastAPI()
 
@@ -18,6 +20,9 @@ router.add_middleware(
 
 router.include_router(books_router, prefix="/api")
 router.include_router(authors_router, prefix="/api")
+router.include_router(publishers_router, prefix="/api")
+router.include_router(collections_router, prefix="/api")
+
 
 if __name__ == "__main__":
     import uvicorn

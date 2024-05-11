@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.database import Base
@@ -11,9 +11,9 @@ class Book(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
     title = Column(String, nullable=False)
     category = Column(String, nullable=False)
-    collection_id = Column(UUID(as_uuid=True), nullable=False)  # needs foreign key
-    author_id = Column(UUID(as_uuid=True), nullable=False)      # needs foreign key
-    publisher_id = Column(UUID(as_uuid=True), nullable=False)   # needs foreign key
+    collection_id = Column(UUID(as_uuid=True), ForeignKey("collections.id"), nullable=False)
+    author_id = Column(UUID(as_uuid=True), ForeignKey("authors.id"), nullable=False)
+    publisher_id = Column(UUID(as_uuid=True), ForeignKey("publishers.id"), nullable=False)
     year_of_publication = Column(Integer, nullable=False)
     place_of_publication = Column(String, nullable=False)
     copies_count = Column(Integer, nullable=False)

@@ -6,7 +6,7 @@ def get_authors(session):
     try:
         authors = session.query(Authors).all()
         if authors:
-            return Authors.serialize_books(authors), None
+            return Authors.serialize_authors(authors), None
         else:
             return None, "No authors found"
     except SQLAlchemyError as e:
