@@ -7,7 +7,7 @@ def get_books(session, title, category, publisher, author_id, location, year):
         query = session.query(Book)
         # Apply filters if they exist
         if category:
-            query = query.filter(Book.categories.any(category))
+            query = query.filter(Book.category == category)
         if title:
             query = query.filter(Book.title == title)
         if publisher:
