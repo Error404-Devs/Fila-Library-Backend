@@ -25,7 +25,7 @@ app.include_router(authors_router, prefix="/api")
 app.include_router(publishers_router, prefix="/api")
 app.include_router(collections_router, prefix="/api")
 app.include_router(inventory_router, prefix="/api")
-#app.include_router(borrows_router, prefix="/api")
+app.include_router(borrows_router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn

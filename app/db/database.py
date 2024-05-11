@@ -116,6 +116,11 @@ class DataBase:
         with session_scope() as session:
             return get_book_inventory(session=session, book_id=book_id)
 
+    @staticmethod
+    def update_inventory_copy(inventory_id):
+        with session_scope() as session:
+            return update_inventory_copy(session=session, inventory_id=inventory_id)
+
     # BORROWS
 
     @staticmethod
