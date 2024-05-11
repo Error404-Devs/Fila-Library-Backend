@@ -8,7 +8,7 @@ from app.db.database import Base
 class Inventory(Base):
     __tablename__ = "inventory"
 
-    id = Column(Integer, primary_key=True, nullable=False, default=uuid.uuid4)
+    id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
     book_id = Column(UUID(as_uuid=True), ForeignKey("books.id"), nullable=False)
     status = Column(Boolean, nullable=False)
 
