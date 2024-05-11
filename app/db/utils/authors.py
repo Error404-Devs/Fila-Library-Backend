@@ -13,3 +13,16 @@ def get_authors(session):
         error = str(e.__dict__['orig'])
         print(error)
         return error
+
+
+def create_author(session, id, first_name, last_name):
+    try:
+        obj = Authors(id=id,
+                      first_name=first_name,
+                      last_name=last_name)
+        session.add(obj)
+        return obj, None
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error

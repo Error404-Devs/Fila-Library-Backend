@@ -64,13 +64,20 @@ class DataBase:
                                  price=price,
                                  created_at=created_at)
 
-
     # AUTHORS
 
     @staticmethod
     def get_authors():
         with session_scope() as session:
             return get_authors(session)
+
+    @staticmethod
+    def create_author(author_id, first_name, last_name):
+        with session_scope() as session:
+            return create_author(session=session,
+                                 id=author_id,
+                                 first_name=first_name,
+                                 last_name=last_name)
 
     # COLLECTIONS
 
@@ -86,19 +93,27 @@ class DataBase:
         with session_scope() as session:
             return get_publishers(session)
 
+    @staticmethod
+    def create_publisher(publisher_id, name):
+        with session_scope() as session:
+            return create_publisher(session=session,
+                                    id=publisher_id,
+                                    name=name)
+
     # INVENTORY
 
     @staticmethod
     def register_copy(id, book_id, status):
         with session_scope() as session:
             return register_copy(session=session,
-                                  id=id,
-                                  book_id=book_id,
-                                  status=status)
+                                 id=id,
+                                 book_id=book_id,
+                                 status=status)
 
     @staticmethod
     def get_book_inventory(book_id):
         with session_scope() as session:
             return get_book_inventory(session=session, book_id=book_id)
+
 
 db = DataBase()
