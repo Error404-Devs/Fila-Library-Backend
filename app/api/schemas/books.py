@@ -23,9 +23,9 @@ class BookResponse(BaseModel):
     id: UUID
     title: str
     category: Optional[str]
-    collection_id: Optional[str]
-    publisher_id: Optional[str]
-    author_id: Optional[str]
+    collection: Optional[str]
+    publisher: Optional[str]
+    author: Optional[str]
     UDC: Optional[str]
     year_of_publication: Optional[str]
     place_of_publication: Optional[str]

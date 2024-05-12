@@ -15,8 +15,8 @@ class Authors(Base):
     def serialize(self):
         return {
             "id": str(self.id),
-            "first_name": str(self.title),
-            "last_name": str(self.category)
+            "first_name": str(self.first_name),
+            "last_name": str(self.last_name)
         }
 
     @staticmethod
@@ -25,7 +25,7 @@ class Authors(Base):
         for author in authors:
             serialized_authors[str(author.id)] = {
                 "id": str(author.id),
-                "first_name": str(author.title),
-                "last_name": str(author.category)
+                "first_name": str(author.first_name),
+                "last_name": str(author.last_name)
         }
         return serialized_authors
