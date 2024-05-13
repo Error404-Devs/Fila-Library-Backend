@@ -9,7 +9,7 @@ def get_books(session, title, category, publisher, author_id, location, year):
         if category:
             query = query.filter(Book.category == category)
         if title:
-            query = query.filter(Book.title == title)
+            query = query.filter(Book.title.like(f'%{title}%'))
         if publisher:
             query = query.filter(Book.publisher_id == publisher)
         if author_id:
