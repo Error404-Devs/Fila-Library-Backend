@@ -4,7 +4,11 @@ from app.db.database import db
 
 
 def get_authors():
-    return db.get_authors()
+    authors, error = db.get_authors()
+    serialized_authors = []
+    for author in authors:
+        serialized_authors.append(authors[author])
+    return serialized_authors, error
 
 
 def create_authors(author_data):
