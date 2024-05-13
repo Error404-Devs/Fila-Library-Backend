@@ -7,6 +7,7 @@ from app.core.config import USER, PASSWORD, HOST, DB_PORT, DB_NAME
 Base = declarative_base()
 
 from app.db.utils.books import *
+from app.db.utils.admins import *
 from app.db.utils.authors import *
 from app.db.utils.collections import *
 from app.db.utils.publishers import *
@@ -64,6 +65,26 @@ class DataBase:
                                  ISBN=ISBN,
                                  price=price,
                                  created_at=created_at)
+
+    # ADMINS
+
+    @staticmethod
+    def get_admins():
+        with session_scope() as session:
+            return get_admins(session)
+
+    @staticmethod
+    def get_admin(admin_id):
+        with session_scope() as session:
+            return get_admin(session, admin_id)
+
+    @staticmethod
+    def create_admin(admin_id, email, hashed_password):
+        with session_scope() as session:
+            return create_admin(session=session,
+                                id=admin_id,
+                                email=email,
+                                hashed_password=hashed_password)
 
     # AUTHORS
 
