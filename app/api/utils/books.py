@@ -3,7 +3,7 @@ from uuid import uuid4
 from app.db.database import db
 
 
-def get_books(title, category, publisher, author_id, location, year):
+def get_books(title, category, publisher, author, location, year):
     publishers_data, _ = db.get_publishers()
     collections_data, _ = db.get_collections()
     authors_data, _ = db.get_authors()
@@ -11,7 +11,7 @@ def get_books(title, category, publisher, author_id, location, year):
     books_data, error = db.get_books(title=title,
                                      category=category,
                                      publisher=publisher,
-                                     author_id=author_id,
+                                     author=author,
                                      location=location,
                                      year=year)
 

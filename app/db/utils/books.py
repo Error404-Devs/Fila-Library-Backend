@@ -1,25 +1,38 @@
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.models.books import Book
+from app.db.models.authors import Authors
 
 
-def get_books(session, title, category, publisher, author_id, location, year):
+def get_books(session, title, category, publisher, author, location, year):
     try:
-        query = session.query(Book)
+        books_query = session.query(Book)
+        authors_query = session.query(Authors)
+
         # Apply filters if they exist
         if category:
-            query = query.filter(Book.category == category)
-        if title:
-            query = query.filter(Book.title.like(f'%{title}%'))
-        if publisher:
-            query = query.filter(Book.publisher_id == publisher)
-        if author_id:
-            query = query.filter(Book.author_id == author_id)
-        if location:
-            query = query.filter(Book.place_of_publication == location)
-        if year:
-            query = query.filter(Book.year_of_publication == year)
+            books_query = books_query.filter(Book.category == category)
 
-        books = query.all()
+        if title:
+            books_query = books_query.filter(Book.title.like(f'%{title}%'))
+
+        if publisher:
+            books_query = books_query.filter(Book.publisher_id == publisher)
+
+        if author:
+            authors = authors_query.filter(
+                Authors.first_name.like(f'%{author}%') | Authors.last_name.like(f'%{author}%')).all()
+
+            if authors:
+                author_ids = [author.id for author in authors]
+                books_query = books_query.filter(Book.author_id.in_(author_ids))
+
+        if location:
+            books_query = books_query.filter(Book.place_of_publication == location)
+
+        if year:
+            books_query = books_query.filter(Book.year_of_publication == year)
+
+        books = books_query.all()
 
         if books:
             return Book.serialize_books(books), None

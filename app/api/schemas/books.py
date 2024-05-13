@@ -10,7 +10,7 @@ class Book(BaseModel):
     category: Optional[str]
     collection_id: Optional[UUID]
     publisher_id: Optional[UUID]
-    author_id: Optional[UUID]
+    author: Optional[UUID]
     UDC: Optional[str]
     year_of_publication: Optional[int]
     place_of_publication: Optional[str]

@@ -13,13 +13,13 @@ books_router = APIRouter(tags=["Books"])
 def books_get(title: str = None,
               category: str = None,
               publisher: str = None,
-              author_id: str = None,
+              author: str = None,
               location: str = None,
               year: int = None):
     response, error = get_books(title=title,
                                 category=category,
                                 publisher=publisher,
-                                author_id=author_id,
+                                author=author,
                                 location=location,
                                 year=year)
     if error:
