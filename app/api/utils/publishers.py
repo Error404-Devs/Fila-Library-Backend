@@ -4,7 +4,14 @@ from app.db.database import db
 
 
 def get_publishers():
-    return db.get_publishers()
+    publishers, error = db.get_publishers()
+    serialized_publishers = []
+    if error:
+        return None, error
+    else:
+        for publisher in publishers:
+            serialized_publishers.append(publishers[publisher])
+        return serialized_publishers, error
 
 
 def create_publisher(publisher_data):
