@@ -15,6 +15,9 @@ def get_books(title, category, publisher, author, location, year):
                                      location=location,
                                      year=year)
 
+    if error:
+        return None, error
+
     sorted_books_data = sorted(books_data, key=lambda x: x["title"])
     for book in sorted_books_data:
         publisher_name, collection_name, author_name = None, None, None
@@ -37,7 +40,7 @@ def get_books(title, category, publisher, author, location, year):
         book["collection"] = collection_name
         book["author"] = author_name
 
-    return sorted_books_data, error
+    return sorted_books_data, None
 
 
 def register_book(book_data):
