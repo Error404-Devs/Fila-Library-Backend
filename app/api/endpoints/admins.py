@@ -10,7 +10,7 @@ admins_router = APIRouter(tags=["Admins"])
 auth_handler = AuthHandler()
 
 
-@admins_router.post("/admins/login")
+@admins_router.post("/admins/login", response_model=LoginResponse)
 def admin_login(admin_data: AdminLogin, response: Response):
     login_response, error = login(admin_data)
     if error:
@@ -25,7 +25,6 @@ def admin_login(admin_data: AdminLogin, response: Response):
                             domain=".onrender.com",
                             path="/api",
                             samesite="none")
-        print(refresh_token)
     return login_response
 
 
@@ -41,7 +40,7 @@ def admin_logout(response: Response):
     return {"detail": "Logged out"}
 
 
-@admins_router.get("/admins/refresh_token")
+@admins_router.get("/admins/refresh_token", response_model=LoginResponse)
 def refresh_token(refresh_token: str | None = Cookie(None)):
     refresh_response, error = token_refresh(refresh_token)
     if error:
