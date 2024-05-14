@@ -23,7 +23,7 @@ def books_get(title: str = None,
                                 location=location,
                                 year=year)
     if error:
-        raise HTTPException(status_code=500, detail=error)
+        raise HTTPException(status_code=404, detail=error)
 
     disable_installed_extensions_check()
     if response:

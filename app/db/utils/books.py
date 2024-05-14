@@ -21,7 +21,7 @@ def get_books(session, title, category, publisher, author, location, year):
             books_query = books_query.filter(func.lower(Book.title).like(f'%{title.lower()}%'))
 
         if location and books_query:
-            books_query = books_query.filter(func.lower(Book.place_of_publication).like(f'%{location}%'))
+            books_query = books_query.filter(func.lower(Book.place_of_publication).like(f'%{location.lower()}%'))
 
         if year and books_query:
             books_query = books_query.filter(func.cast(Book.year_of_publication, String).like(f'%{year}%'))
