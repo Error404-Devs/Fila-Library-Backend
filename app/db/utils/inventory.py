@@ -28,11 +28,11 @@ def register_copy(session, id, book_id, status):
         return error
 
 
-def update_inventory_copy(session, inventory_id):
+def update_inventory_copy(session, inventory_id, status):
     try:
         copy = session.query(Inventory).filter(Inventory.id == inventory_id).first()
         if copy:
-            copy.status = True
+            copy.status = status
             session.commit()
             return True, None
         else:

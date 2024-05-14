@@ -24,3 +24,44 @@ def create_borrow(session,
         error = str(e.__dict__['orig'])
         print(error)
         return error
+
+
+def return_book(session, borrow_id):
+    try:
+        borrow = session.query(Borrows).filter(Borrows.id == borrow_id).first()
+        if borrow:
+            borrow.status = False
+            session.commit()
+            return Borrows.serialize(borrow), None
+        else:
+            return None, "No borrow found with this id"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
+
+def get_person_borrows(session, person_id):
+    try:
+        query = session.query(Borrows).filter(Borrows.person_id == person_id).all()
+        if query:
+            return Borrows.serialize_borrows(query), None
+        else:
+            return None, "No borrows found for this person"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
+
+def get_borrow_info(session, borrow_id):
+    try:
+        query = session.query(Borrows).filter(Borrows.id == borrow_id).first()
+        if query:
+            return Borrows.serialize(query), None
+        else:
+            return None, "No borrow found for this person"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
