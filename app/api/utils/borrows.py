@@ -6,7 +6,7 @@ from app.db.database import db
 def create_borrow(borrow_data):
     borrow_id = str(uuid4())
     # Update book from inventory status
-    borrow_inventory, error = db.update_inventory_copy(inventory_id=borrow_data.get("inventory_id"))
+    borrow_inventory, error = db.update_inventory_copy(inventory_id=borrow_data.get("inventory_id"), status=True)
     if borrow_inventory:
         borrow = db.create_borrow(borrow_id=borrow_id,
                                   person_id=borrow_data.get("person_id"),
@@ -18,6 +18,15 @@ def create_borrow(borrow_data):
         return borrow
     else:
         return None, error
+
+
+def create_return(return_data):
+    borrow_id = return_data.get("borrow_id")
+    borrow_data, error = db.get_borrow_info(borrow_id)
+
+    # Update inventory copy
+    borrow_inventory, error = db.update_inventory_copy(inventory_id=borrow_data.get("inventory_id"), status=False)
+    return db.return_book(borrow_id)
 
 
 def get_student_borrows(student_id):

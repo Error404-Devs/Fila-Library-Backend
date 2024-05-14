@@ -11,6 +11,10 @@ class BorrowData(BaseModel):
     due_date: datetime
 
 
+class ReturnData(BaseModel):
+    borrow_id: str
+
+
 class Borrow(BaseModel):
     id: str
     person_id: str

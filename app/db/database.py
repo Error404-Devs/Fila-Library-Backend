@@ -143,9 +143,9 @@ class DataBase:
             return get_book_inventory(session=session, book_id=book_id)
 
     @staticmethod
-    def update_inventory_copy(inventory_id):
+    def update_inventory_copy(inventory_id, status):
         with session_scope() as session:
-            return update_inventory_copy(session=session, inventory_id=inventory_id)
+            return update_inventory_copy(session=session, inventory_id=inventory_id, status=status)
 
     # BORROWS
 
@@ -162,9 +162,19 @@ class DataBase:
                                  status=status)
 
     @staticmethod
+    def return_book(borrow_id):
+        with session_scope() as session:
+            return return_book(session=session,
+                               borrow_id=borrow_id)
+
+    @staticmethod
     def get_person_borrows(person_id):
         with session_scope() as session:
             return get_person_borrows(session=session, person_id=person_id)
 
+    @staticmethod
+    def get_borrow_info(borrow_id):
+        with session_scope() as session:
+            return get_borrow_info(session=session, borrow_id=borrow_id)
 
 db = DataBase()
