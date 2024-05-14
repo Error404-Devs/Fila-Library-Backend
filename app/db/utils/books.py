@@ -95,3 +95,16 @@ def register_book(session,
         error = str(e.__dict__['orig'])
         print(error)
         return error
+
+
+def get_book_info(session, book_id):
+    try:
+        book = session.query(Book).filter(Book.id == book_id).first()
+        if book:
+            return Book.serialize(book), None
+        else:
+            return None, "No books found"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error

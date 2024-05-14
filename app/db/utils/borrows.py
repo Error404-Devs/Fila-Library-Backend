@@ -24,3 +24,16 @@ def create_borrow(session,
         error = str(e.__dict__['orig'])
         print(error)
         return error
+
+
+def get_person_borrows(session, person_id):
+    try:
+        query = session.query(Borrows).filter(Borrows.person_id == person_id).all()
+        if query:
+            return Borrows.serialize_borrows(query), None
+        else:
+            return None, "No books found for this person"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error

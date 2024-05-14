@@ -66,6 +66,11 @@ class DataBase:
                                  price=price,
                                  created_at=created_at)
 
+    @staticmethod
+    def get_book_info(book_id):
+        with session_scope() as session:
+            return get_book_info(session=session, book_id=book_id)
+
     # ADMINS
 
     @staticmethod
@@ -155,6 +160,11 @@ class DataBase:
                                  borrow_date=borrow_date,
                                  due_date=due_date,
                                  status=status)
+
+    @staticmethod
+    def get_person_borrows(person_id):
+        with session_scope() as session:
+            return get_person_borrows(session=session, person_id=person_id)
 
 
 db = DataBase()

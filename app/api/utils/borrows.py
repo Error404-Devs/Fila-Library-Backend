@@ -20,3 +20,15 @@ def create_borrow(borrow_data):
         return None, error
 
 
+def get_student_borrows(student_id):
+    borrows, error = db.get_person_borrows(student_id)
+    authors_data, _ = db.get_authors()
+    for borrow in borrows:
+        book_info, error = db.get_book_info(borrow.get("book_id"))
+        borrow["book_name"] = book_info.get("title")
+
+        # Get author data
+        author_data = authors_data[book_info.get("author_id")]
+        borrow["author_name"] = author_data.get("first_name") + author_data.get("last_name")
+        del borrow["book_id"], borrow["person_id"]
+    return borrows, error

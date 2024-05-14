@@ -13,3 +13,13 @@ def book_borrow(data: BorrowData):
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
+
+
+@borrows_router.get("/borrows", response_model=List[StudentBorrows])
+def student_borrows(person_id: str = None):
+    borrows, error = get_student_borrows(person_id)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    else:
+        return borrows
+
