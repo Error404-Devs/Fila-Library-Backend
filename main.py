@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.endpoints.books import books_router
-from app.api.endpoints.admins import admins_router
+from app.api.endpoints.auth import auth_router
 from app.api.endpoints.authors import authors_router
 from app.api.endpoints.publishers import publishers_router
 from app.api.endpoints.collections import collections_router
@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 app.include_router(books_router, prefix="/api")
-app.include_router(admins_router, prefix="/api")
+app.include_router(auth_router, prefix="/api")
 app.include_router(authors_router, prefix="/api")
 app.include_router(publishers_router, prefix="/api")
 app.include_router(collections_router, prefix="/api")
