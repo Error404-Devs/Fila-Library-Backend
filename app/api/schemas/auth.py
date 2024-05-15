@@ -9,3 +9,9 @@ class AdminLogin(BaseModel):
 class LoginResponse(BaseModel):
     email: str
     access_token: str
+    refresh_token: str
+
+
+class RefreshResponse(BaseModel):
+    email: str
+    access_token: str
