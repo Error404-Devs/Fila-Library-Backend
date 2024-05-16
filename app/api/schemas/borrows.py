@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from pydantic import BaseModel
 
@@ -25,7 +26,7 @@ class Borrow(BaseModel):
     status: bool
 
 
-class StudentBorrows(BaseModel):
+class BorrowedItems(BaseModel):
     id: str
     book_name: str
     author_name: str
@@ -35,3 +36,13 @@ class StudentBorrows(BaseModel):
     status: bool
 
 
+class StudentBorrows(BaseModel):
+    items: List[BorrowedItems]
+    first_name: str
+    last_name: str
+    year: int
+    group: str
+    county: str
+    city: str
+    address: str
+    phone_number: str

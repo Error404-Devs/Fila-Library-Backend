@@ -29,15 +29,32 @@ def create_return(return_data):
     return db.return_book(borrow_id)
 
 
-def get_student_borrows(student_id):
-    borrows, error = db.get_person_borrows(student_id)
-    authors_data, _ = db.get_authors()
-    for borrow in borrows:
-        book_info, error = db.get_book_info(borrow.get("book_id"))
-        borrow["book_name"] = book_info.get("title")
+def get_student_borrows(person_id):
+    # Verify if person is in database
+    person, error = db.get_person(person_id)
+    if person:
+        borrows = db.get_person_borrows(person_id)
+        authors_data, _ = db.get_authors()
+        for borrow in borrows:
+            book_info, error = db.get_book_info(borrow.get("book_id"))
+            borrow["book_name"] = book_info.get("title")
 
-        # Get author data
-        author_data = authors_data[book_info.get("author_id")]
-        borrow["author_name"] = author_data.get("first_name") + author_data.get("last_name")
-        del borrow["book_id"], borrow["person_id"]
-    return borrows, error
+            # Get author data
+            author_data = authors_data[book_info.get("author_id")]
+            borrow["author_name"] = author_data.get("first_name") + author_data.get("last_name")
+            del borrow["book_id"], borrow["person_id"]
+
+        returned_object = {
+            "items": borrows,
+            "first_name": person.get("first_name"),
+            "last_name": person.get("last_name"),
+            "address": person.get("address"),
+            "year": person.get("year"),
+            "group": person.get("group"),
+            "county": person.get("county"),
+            "city": person.get("city"),
+            "phone_number": person.get("phone_number"),
+        }
+        return returned_object, None
+    else:
+        return None, error

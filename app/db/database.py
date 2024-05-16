@@ -13,6 +13,7 @@ from app.db.utils.collections import *
 from app.db.utils.publishers import *
 from app.db.utils.inventory import *
 from app.db.utils.borrows import *
+from app.db.utils.persons import *
 
 engine = create_engine(f'postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{DB_PORT}/{DB_NAME}')
 
@@ -176,5 +177,13 @@ class DataBase:
     def get_borrow_info(borrow_id):
         with session_scope() as session:
             return get_borrow_info(session=session, borrow_id=borrow_id)
+
+    # PERSONS
+
+    @staticmethod
+    def get_person(person_id):
+        with session_scope() as session:
+            return get_person(session=session, person_id=person_id)
+
 
 db = DataBase()
