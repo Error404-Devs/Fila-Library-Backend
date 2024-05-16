@@ -43,7 +43,7 @@ class AuthHandler:
 
     def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
         user_id, _ = self.decode_token(auth.credentials, self.access_secret)
-        user_data, error = db.get_admin(user_id + "asd")
+        user_data, error = db.get_admin(user_id)
         if error:
             raise HTTPException(status_code=401, detail='Could not validate credentials')
         return user_id
