@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, Response, Depends, Cookie
+from fastapi import APIRouter, HTTPException, Response, Depends
 
 from app.api.utils.auth import *
 from app.api.schemas.auth import *
+from app.core.config import ACCESS_EXPIRY
 
 from app.core.security import AuthHandler
 
@@ -19,6 +20,7 @@ def admin_login(admin_data: AdminLogin):
         access_token, refresh_token = auth_handler.generate_tokens(login_response.get("id"))
         login_response["access_token"] = access_token
         login_response["refresh_token"] = refresh_token
+        login_response["expires_in"] = ACCESS_EXPIRY
     return login_response
 
 
@@ -27,6 +29,7 @@ def refresh_token(refresh_token: str):
     refresh_response, error = token_refresh(refresh_token)
     if error:
         raise HTTPException(status_code=401, detail=error)
+    refresh_response["expires_in"] = ACCESS_EXPIRY
     return refresh_response
 
 
