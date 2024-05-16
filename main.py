@@ -8,6 +8,7 @@ from app.api.endpoints.publishers import publishers_router
 from app.api.endpoints.collections import collections_router
 from app.api.endpoints.inventory import inventory_router
 from app.api.endpoints.borrows import borrows_router
+from app.api.endpoints.persons import persons_router
 
 app = FastAPI()
 
@@ -28,6 +29,7 @@ app.include_router(publishers_router, prefix="/api")
 app.include_router(collections_router, prefix="/api")
 app.include_router(inventory_router, prefix="/api")
 app.include_router(borrows_router, prefix="/api")
+app.include_router(persons_router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn
