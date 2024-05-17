@@ -46,3 +46,4 @@ class StudentBorrows(BaseModel):
     city: str
     address: str
     phone_number: str
+    gender: str

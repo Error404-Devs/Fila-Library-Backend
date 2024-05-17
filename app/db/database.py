@@ -185,5 +185,11 @@ class DataBase:
         with session_scope() as session:
             return get_person(session=session, person_id=person_id)
 
+    # STATISTICS
+
+    @staticmethod
+    def get_monthly_borrows(month):
+        with session_scope() as session:
+            return get_monthly_borrows(session=session, month=month)
 
 db = DataBase()

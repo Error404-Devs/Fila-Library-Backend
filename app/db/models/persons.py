@@ -11,6 +11,7 @@ class Person(Base):
     id = Column(String, primary_key=True, nullable=False, default=uuid.uuid4)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
+    gender = Column(String, nullable=False)
     year = Column(Integer, nullable=False)
     group = Column(String, nullable=False)
     county = Column(String, nullable=False)
@@ -23,6 +24,7 @@ class Person(Base):
             "id": str(self.id),
             "first_name": self.first_name,
             "last_name": self.last_name,
+            "gender": self.gender,
             "year": self.year,
             "group": self.group,
             "county": self.county,
@@ -39,6 +41,7 @@ class Person(Base):
                 "id": str(person.id),
                 "first_name": str(person.first_name),
                 "last_name": str(person.last_name),
+                "gender": str(person.gender),
                 "year": str(person.year),
                 "group": str(person.group),
                 "county": str(person.county),
