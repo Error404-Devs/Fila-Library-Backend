@@ -7,7 +7,6 @@ def create_borrow(borrow_data):
     borrow_id = str(uuid4())
     # Update book from inventory status
     borrow_inventory, error = db.update_inventory_copy(book_id=borrow_data.get("book_id"), status=True)
-    print(borrow_inventory)
     if borrow_inventory:
         borrow = db.create_borrow(borrow_id=borrow_id,
                                   person_id=borrow_data.get("person_id"),
@@ -59,6 +58,7 @@ def get_student_borrows(person_id):
             "county": person.get("county"),
             "city": person.get("city"),
             "phone_number": person.get("phone_number"),
+            "gender": person.get("gender"),
         }
         return returned_object, None
     else:

@@ -1,3 +1,4 @@
+from sqlalchemy import extract
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.models.borrows import Borrows
 
@@ -59,6 +60,19 @@ def get_borrow_info(session, borrow_id):
             return Borrows.serialize(query), None
         else:
             return None, "No borrow found for this person"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
+
+def get_monthly_borrows(session, month):
+    try:
+        query = session.query(Borrows).filter(extract('month', Borrows.borrow_date) == month).all()
+        if query:
+            return Borrows.serialize_borrows(query), None
+        else:
+            return None, "No borrows found for this month"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
