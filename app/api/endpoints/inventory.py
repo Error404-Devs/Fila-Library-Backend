@@ -6,7 +6,7 @@ from app.api.schemas.inventory import *
 inventory_router = APIRouter(tags=["Inventory"])
 
 
-@inventory_router.get("/inventory")
+@inventory_router.get("/inventory", response_model=BookInventory)
 def books_get(book_id: str):
     response, error = get_book_inventory(book_id)
     if error:
