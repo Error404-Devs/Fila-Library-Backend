@@ -31,6 +31,9 @@ class BookResponse(BaseModel):
     place_of_publication: Optional[str]
     ISBN: Optional[str]
     price: Optional[str]
+    total_copies: Optional[int]
+    available_copies: Optional[int]
+    borrowed_copies: Optional[int]
     created_at: datetime
 
     class Config:

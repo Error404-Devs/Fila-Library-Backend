@@ -16,7 +16,7 @@ class Inventory(Base):
         return {
             "id": str(self.id),
             "book_id": str(self.book_id),
-            "status": str(self.status)
+            "status": self.status
         }
 
     @staticmethod
@@ -26,7 +26,7 @@ class Inventory(Base):
             serialized_copy = {
                 "id": str(copy.id),
                 "book_id": str(copy.book_id),
-                "status": str(copy.status)
+                "status": copy.status
             }
             serialized_copies.append(serialized_copy)
         return serialized_copies
