@@ -15,6 +15,19 @@ def get_book_inventory(session, book_id):
         return error
 
 
+def get_books_inventory(session):
+    try:
+        copies = session.query(Inventory).all()
+        if copies:
+            return Inventory.serialize_copies(copies), None
+        else:
+            return None, "No copies found"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
+
 def register_copy(session, id, book_id, status):
     try:
         obj = Inventory(id=id,

@@ -7,6 +7,7 @@ def get_books(title, category, publisher, author, location, year):
     publishers_data, _ = db.get_publishers()
     collections_data, _ = db.get_collections()
     authors_data, _ = db.get_authors()
+    inventory_data, _ = db.get_books_inventory()
 
     books_data, error = db.get_books(title=title,
                                      category=category,
@@ -17,7 +18,6 @@ def get_books(title, category, publisher, author, location, year):
 
     if error:
         return None, error
-
     sorted_books_data = sorted(books_data, key=lambda x: x["title"])
     for book in sorted_books_data:
         publisher_name, collection_name, author_name = None, None, None
@@ -36,6 +36,18 @@ def get_books(title, category, publisher, author, location, year):
             author_last_name = authors_data.get(book["author_id"]).get("last_name")
             author_name = " ".join(filter(None, [author_first_name, author_last_name]))
 
+        borrowed_count = 0
+        available_count = 0
+        for item in inventory_data:
+            if item.get("book_id") == book.get("id"):
+                if item.get("status"):
+                    borrowed_count += 1
+                else:
+                    available_count += 1
+
+        book["borrowed_copies"] = borrowed_count
+        book["available_copies"] = available_count
+        book["total_copies"] = borrowed_count + available_count
         book["publisher"] = publisher_name
         book["collection"] = collection_name
         book["author"] = author_name
