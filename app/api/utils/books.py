@@ -39,7 +39,6 @@ def get_books(title, category, publisher, author, location, year):
         book["publisher"] = publisher_name
         book["collection"] = collection_name
         book["author"] = author_name
-
     return sorted_books_data, None
 
 

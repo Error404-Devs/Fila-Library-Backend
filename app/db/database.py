@@ -144,9 +144,9 @@ class DataBase:
             return get_book_inventory(session=session, book_id=book_id)
 
     @staticmethod
-    def update_inventory_copy(inventory_id, status):
+    def update_inventory_copy(book_id, status):
         with session_scope() as session:
-            return update_inventory_copy(session=session, inventory_id=inventory_id, status=status)
+            return update_inventory_copy(session=session, book_id=book_id, status=status)
 
     # BORROWS
 

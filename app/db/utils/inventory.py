@@ -28,13 +28,13 @@ def register_copy(session, id, book_id, status):
         return error
 
 
-def update_inventory_copy(session, inventory_id, status):
+def update_inventory_copy(session, book_id, status):
     try:
-        copy = session.query(Inventory).filter(Inventory.id == inventory_id).first()
+        copy = session.query(Inventory).filter(Inventory.book_id == book_id).first()
         if copy:
             copy.status = status
             session.commit()
-            return True, None
+            return copy.id, None
         else:
             return False, "Copy from inventory not found"
     except SQLAlchemyError as e:

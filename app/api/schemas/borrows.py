@@ -1,12 +1,12 @@
 from datetime import datetime
 from typing import List
+from uuid import UUID
 
 from pydantic import BaseModel
 
 
 class BorrowData(BaseModel):
     person_id: str
-    inventory_id: str
     book_id: str
     borrow_date: datetime
     due_date: datetime
@@ -19,7 +19,7 @@ class ReturnData(BaseModel):
 class Borrow(BaseModel):
     id: str
     person_id: str
-    inventory_id: str
+    inventory_id: UUID
     book_id: str
     borrow_date: datetime
     due_date: datetime

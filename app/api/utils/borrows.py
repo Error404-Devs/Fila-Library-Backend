@@ -6,11 +6,12 @@ from app.db.database import db
 def create_borrow(borrow_data):
     borrow_id = str(uuid4())
     # Update book from inventory status
-    borrow_inventory, error = db.update_inventory_copy(inventory_id=borrow_data.get("inventory_id"), status=True)
+    borrow_inventory, error = db.update_inventory_copy(book_id=borrow_data.get("book_id"), status=True)
+    print(borrow_inventory)
     if borrow_inventory:
         borrow = db.create_borrow(borrow_id=borrow_id,
                                   person_id=borrow_data.get("person_id"),
-                                  inventory_id=borrow_data.get("inventory_id"),
+                                  inventory_id=borrow_inventory,
                                   book_id=borrow_data.get("book_id"),
                                   borrow_date=borrow_data.get("borrow_date"),
                                   due_date=borrow_data.get("due_date"),
@@ -23,10 +24,14 @@ def create_borrow(borrow_data):
 def create_return(return_data):
     borrow_id = return_data.get("borrow_id")
     borrow_data, error = db.get_borrow_info(borrow_id)
-
-    # Update inventory copy
-    borrow_inventory, error = db.update_inventory_copy(inventory_id=borrow_data.get("inventory_id"), status=False)
-    return db.return_book(borrow_id)
+    if not error:
+        # Update inventory copy
+        borrow_inventory, _ = db.update_inventory_copy(book_id=borrow_data.get("book_id"), status=False)
+        returned_object, _ = db.return_book(borrow_id)
+        returned_object["inventory_id"] = borrow_inventory
+        return returned_object, None
+    else:
+        return None, error
 
 
 def get_student_borrows(person_id):
