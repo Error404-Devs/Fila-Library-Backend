@@ -77,3 +77,16 @@ def get_monthly_borrows(session, month):
         error = str(e.__dict__['orig'])
         print(error)
         return error
+
+
+def get_book_borrows(session, book_id):
+    try:
+        query = session.query(Borrows).filter(Borrows.book_id == book_id).all()
+        if query:
+            return Borrows.serialize_borrows(query), None
+        else:
+            return [], "No borrows found for this month"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error

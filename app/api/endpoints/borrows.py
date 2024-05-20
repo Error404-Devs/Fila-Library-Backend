@@ -24,6 +24,14 @@ def book_return(data: ReturnData):
     return response
 
 
+@borrows_router.get("/book", response_model=List[Borrow])
+def book_borrows(book_id: str = None):
+    response, error = get_book_borrows(book_id)
+    if error:
+        raise HTTPException(status_code=404, detail=error)
+    return response
+
+
 @borrows_router.get("/borrows", response_model=StudentBorrows)
 def student_borrows(person_id: str = None):
     borrows, error = get_student_borrows(person_id)

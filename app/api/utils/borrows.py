@@ -89,3 +89,7 @@ def get_student_borrows(person_id):
         return returned_object, None
     else:
         return None, error
+
+
+def get_book_borrows(book_id):
+    return db.get_book_borrows(book_id)
