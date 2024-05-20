@@ -84,3 +84,21 @@ def register_book(book_data):
                          status=False)
         copies = copies - 1
     return book_data, None
+
+
+def edit_book(book_data):
+    book_data, error = db.edit_book(id=book_data.get("id"),
+                                    title=book_data.get("title"),
+                                    category=book_data.get("category"),
+                                    collection_id=book_data.get("collection_id"),
+                                    publisher_id=book_data.get("publisher_id"),
+                                    author_id=book_data.get("author_id"),
+                                    UDC=book_data.get("UDC"),
+                                    year_of_publication=book_data.get("year_of_publication"),
+                                    place_of_publication=book_data.get("place_of_publication"),
+                                    ISBN=book_data.get("ISBN"),
+                                    price=book_data.get("price"))
+
+    # Needs logic for adding/removing book copies
+
+    return book_data, None

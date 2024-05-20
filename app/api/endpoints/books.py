@@ -44,3 +44,12 @@ def book_register(data: Book):
     return response
 
 
+@books_router.put("/books") # Needs response model based on frontend needs
+def book_edit(data: Book):
+    book_data = data.model_dump()
+    response, error = edit_book(book_data)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response
+
+
