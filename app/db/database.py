@@ -185,6 +185,18 @@ class DataBase:
         with session_scope() as session:
             return get_person(session=session, person_id=person_id)
 
+    @staticmethod
+    def create_person(person_id, first_name, last_name, gender, year, group, address, phone_number):
+        with session_scope() as session:
+            return create_person(session=session,
+                                 person_id=person_id,
+                                 first_name=first_name,
+                                 last_name=last_name,
+                                 gender=gender,
+                                 year=year,
+                                 group=group,
+                                 address=address,
+                                 phone_number=phone_number)
     # STATISTICS
 
     @staticmethod

@@ -14,8 +14,6 @@ class Person(Base):
     gender = Column(String, nullable=False)
     year = Column(Integer, nullable=False)
     group = Column(String, nullable=False)
-    county = Column(String, nullable=False)
-    city = Column(String, nullable=False)
     address = Column(String, nullable=False)
     phone_number = Column(String, nullable=False)
 
@@ -27,8 +25,6 @@ class Person(Base):
             "gender": self.gender,
             "year": self.year,
             "group": self.group,
-            "county": self.county,
-            "city": self.city,
             "address": self.address,
             "phone_number": self.phone_number
         }
@@ -44,8 +40,6 @@ class Person(Base):
                 "gender": str(person.gender),
                 "year": str(person.year),
                 "group": str(person.group),
-                "county": str(person.county),
-                "city": str(person.city),
                 "address": str(person.address),
                 "phone_number": str(person.phone_number)
             }
