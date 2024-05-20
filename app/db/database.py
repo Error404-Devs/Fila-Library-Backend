@@ -151,6 +151,11 @@ class DataBase:
     # BORROWS
 
     @staticmethod
+    def get_book_borrows(book_id):
+        with session_scope() as session:
+            return get_book_borrows(session=session, book_id=book_id)
+
+    @staticmethod
     def create_borrow(borrow_id, person_id, inventory_id, book_id, borrow_date, due_date, status):
         with session_scope() as session:
             return create_borrow(session=session,
