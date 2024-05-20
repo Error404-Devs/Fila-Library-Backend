@@ -68,6 +68,23 @@ class DataBase:
                                  created_at=created_at)
 
     @staticmethod
+    def edit_book(id, title, category, collection_id, publisher_id, author_id,
+                  UDC, year_of_publication, place_of_publication, ISBN, price):
+        with session_scope() as session:
+            return edit_book(session=session,
+                             id=id,
+                             title=title,
+                             category=category,
+                             collection_id=collection_id,
+                             publisher_id=publisher_id,
+                             author_id=author_id,
+                             UDC=UDC,
+                             year_of_publication=year_of_publication,
+                             place_of_publication=place_of_publication,
+                             ISBN=ISBN,
+                             price=price)
+
+    @staticmethod
     def get_book_info(book_id):
         with session_scope() as session:
             return get_book_info(session=session, book_id=book_id)
