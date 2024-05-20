@@ -49,7 +49,7 @@ def update_inventory_copy(session, book_id, status):
             session.commit()
             return copy.id, None
         else:
-            return False, "Copy from inventory not found"
+            return None, "Copy from inventory not found"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
