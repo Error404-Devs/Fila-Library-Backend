@@ -91,5 +91,15 @@ def get_student_borrows(person_id):
         return None, error
 
 
-def get_book_borrows(book_id):
-    return db.get_book_borrows(book_id)
+def get_book_borrowers(book_id):
+    book_borrows, error = db.get_book_borrows(book_id)
+    if book_borrows:
+        persons = []
+        for item in book_borrows:
+            person_data, _ = db.get_person(item.get("person_id"))
+
+            if person_data:
+                persons.append(person_data)
+
+        return persons, None
+    return None, error
