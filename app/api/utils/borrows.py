@@ -63,16 +63,19 @@ def get_student_borrows(person_id):
     # Verify if person is in database
     person, error = db.get_person(person_id)
     if person:
-        borrows = db.get_person_borrows(person_id)
+        borrows, error = db.get_person_borrows(person_id)
         authors_data, _ = db.get_authors()
-        for borrow in borrows:
-            book_info, error = db.get_book_info(borrow.get("book_id"))
-            borrow["book_name"] = book_info.get("title")
+        if borrows:
+            for borrow in borrows:
+                book_info, error = db.get_book_info(borrow.get("book_id"))
+                borrow["book_name"] = book_info.get("title")
 
-            # Get author data
-            author_data = authors_data[book_info.get("author_id")]
-            borrow["author_name"] = author_data.get("first_name") + author_data.get("last_name")
-            del borrow["book_id"], borrow["person_id"]
+                # Get author data
+                author_data = authors_data[book_info.get("author_id")]
+                borrow["author_name"] = author_data.get("first_name") + author_data.get("last_name")
+                del borrow["book_id"], borrow["person_id"]
+        else:
+            borrows: []
 
         returned_object = {
             "items": borrows,

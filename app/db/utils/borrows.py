@@ -46,7 +46,9 @@ def get_person_borrows(session, person_id):
     try:
         query = session.query(Borrows).filter(Borrows.person_id == person_id).all()
         if query:
-            return Borrows.serialize_borrows(query)
+            return Borrows.serialize_borrows(query), None
+        else:
+            return [], "No borrows found"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
