@@ -62,3 +62,5 @@ class Student(BaseModel):
     group: Optional[str]
     address: Optional[str]
     phone_number: Optional[str]
+    borrow_date: Optional[str]
+    due_date: Optional[str]

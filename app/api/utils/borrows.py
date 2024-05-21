@@ -99,6 +99,8 @@ def get_book_borrowers(book_id):
             person_data, _ = db.get_person(item.get("person_id"))
 
             if person_data:
+                person_data["borrow_date"] = item.get("borrow_date")
+                person_data["due_date"] = item.get("due_date")
                 persons.append(person_data)
 
         return persons, None
