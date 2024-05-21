@@ -85,7 +85,7 @@ def get_book_borrows(session, book_id):
         if query:
             return Borrows.serialize_borrows(query), None
         else:
-            return [], "No borrows found for this month"
+            return [], "No borrows found for this book"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
