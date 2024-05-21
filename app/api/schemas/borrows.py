@@ -64,3 +64,17 @@ class Student(BaseModel):
     phone_number: Optional[str]
     borrow_date: Optional[str]
     due_date: Optional[str]
+
+
+class BookBorrowers(BaseModel):
+    id: str
+    first_name: Optional[str]
+    last_name: Optional[str]
+    gender: Optional[str]
+    year: Optional[int]
+    group: Optional[str]
+    address: Optional[str]
+    phone_number: Optional[str]
+    borrow_date: Optional[str]
+    due_date: Optional[str]
+    borrow_id: Optional[str]
