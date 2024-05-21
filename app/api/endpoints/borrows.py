@@ -24,7 +24,7 @@ def book_return(data: ReturnData):
     return response
 
 
-@borrows_router.get("/borrows/book", response_model=List[Student])
+@borrows_router.get("/borrows/book", response_model=List[BookBorrowers])
 def book_borrowers(book_id: str = None):
     response, error = get_book_borrowers(book_id)
     if error:
