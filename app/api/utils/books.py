@@ -8,7 +8,6 @@ def get_books(title, category, publisher, author, location, year):
     collections_data, _ = db.get_collections()
     authors_data, _ = db.get_authors()
     inventory_data, _ = db.get_books_inventory()
-
     books_data, error = db.get_books(title=title,
                                      category=category,
                                      publisher=publisher,
