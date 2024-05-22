@@ -8,7 +8,7 @@ def get_book_inventory(session, book_id):
         if copies:
             return Inventory.serialize_copies(copies), None
         else:
-            return None, "No copies found"
+            return [], "No copies found"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
@@ -35,6 +35,18 @@ def register_copy(session, id, book_id, status):
                         status=status)
         session.add(obj)
         return obj
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
+
+def remove_copy(session, inventory_id):
+    try:
+        copy = session.query(Inventory).filter(Inventory.id == inventory_id).first()
+        if copy:
+            session.delete(copy)
+            return copy
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)

@@ -20,6 +20,21 @@ class Book(BaseModel):
     copies: int
 
 
+class BookEdit(BaseModel):
+    id: UUID
+    title: str
+    category: Optional[str]
+    collection_id: Optional[UUID]
+    publisher_id: Optional[UUID]
+    author_id: Optional[UUID]
+    UDC: Optional[str]
+    year_of_publication: Optional[int]
+    place_of_publication: Optional[str]
+    ISBN: Optional[str]
+    price: Optional[int]
+    quantity: Optional[int]
+
+
 class BookResponse(BaseModel):
     id: UUID
     title: str

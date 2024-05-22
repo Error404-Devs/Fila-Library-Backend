@@ -86,6 +86,7 @@ def register_book(book_data):
 
 
 def edit_book(book_data):
+    quantity = book_data.get("quantity")
     book_data, error = db.edit_book(id=book_data.get("id"),
                                     title=book_data.get("title"),
                                     category=book_data.get("category"),
@@ -98,6 +99,24 @@ def edit_book(book_data):
                                     ISBN=book_data.get("ISBN"),
                                     price=book_data.get("price"))
 
-    # Needs logic for adding/removing book copies
+    if quantity:
+        inventory_data, _ = db.get_book_inventory(book_data.get("id"))
+
+        # Loop through the number of copies to add or remove
+        for i in range(int(abs(quantity))):
+            if quantity > 0:
+                # If quantity is positive, add a new copy
+                inventory_id = str(uuid4())
+                db.register_copy(id=inventory_id,
+                                 book_id=book_data.get("id"),
+                                 status=False)
+            else:
+                # If quantity is negative, remove an existing copy
+                for index, item in enumerate(inventory_data):
+                    if not item.get("status"):
+                        # Find the first available (not in use) copy
+                        db.remove_copy(item.get("id"))
+                        inventory_data.pop(index)
+                        break
 
     return book_data, None
