@@ -27,6 +27,20 @@ def create_borrow(session,
         return error
 
 
+def remove_inventory_item_from_borrow_record(session, borrow_id):
+    try:
+        borrow = session.query(Borrows).filter(Borrows.id == borrow_id).first()
+        if borrow:
+            borrow.inventory_id = None
+            return Borrows.serialize(borrow), None
+        else:
+            return None, "No borrow found with this id"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
+
 def return_book(session, borrow_id):
     try:
         borrow = session.query(Borrows).filter(Borrows.id == borrow_id).first()
@@ -61,7 +75,7 @@ def get_borrow_info(session, borrow_id):
         if query:
             return Borrows.serialize(query), None
         else:
-            return None, "No borrow found for this person"
+            return None, "No borrow found for this id"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)

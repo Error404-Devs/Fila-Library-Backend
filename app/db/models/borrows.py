@@ -10,7 +10,7 @@ class Borrows(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
     person_id = Column(String, nullable=False)
-    inventory_id = Column(UUID(as_uuid=True), ForeignKey("inventory.id"), nullable=False)
+    inventory_id = Column(UUID(as_uuid=True), ForeignKey("inventory.id"), nullable=True)
     book_id = Column(UUID(as_uuid=True), ForeignKey("books.id"), nullable=False)
     borrow_date = Column(TIMESTAMP, nullable=False)
     due_date = Column(TIMESTAMP, nullable=False)

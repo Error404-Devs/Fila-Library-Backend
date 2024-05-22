@@ -32,7 +32,6 @@ class BookEdit(BaseModel):
     place_of_publication: Optional[str]
     ISBN: Optional[str]
     price: Optional[int]
-    quantity: Optional[int]
 
 
 class BookResponse(BaseModel):

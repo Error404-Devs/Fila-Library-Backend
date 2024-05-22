@@ -13,3 +13,10 @@ def books_get(book_id: str):
         raise HTTPException(status_code=500, detail=error)
     return response
 
+
+@inventory_router.post("/inventory")
+def book_inventory_record_manager(record_data: BookInventoryRecord):
+    response, error = manage_book_inventory_record(record_data)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response
