@@ -226,6 +226,20 @@ class DataBase:
                                  group=group,
                                  address=address,
                                  phone_number=phone_number)
+
+    @staticmethod
+    def edit_person(person_id, first_name, last_name, gender, year, group, address, phone_number):
+        with session_scope() as session:
+            return edit_person(session=session,
+                               person_id=person_id,
+                               first_name=first_name,
+                               last_name=last_name,
+                               gender=gender,
+                               year=year,
+                               group=group,
+                               address=address,
+                               phone_number=phone_number)
+
     # STATISTICS
 
     @staticmethod
