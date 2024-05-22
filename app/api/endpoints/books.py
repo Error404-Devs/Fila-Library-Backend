@@ -45,7 +45,7 @@ def book_register(data: Book):
 
 
 @books_router.put("/books") # Needs response model based on frontend needs
-def book_edit(data: Book):
+def book_edit(data: BookEdit):
     book_data = data.model_dump()
     response, error = edit_book(book_data)
     if error:

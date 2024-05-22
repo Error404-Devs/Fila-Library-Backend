@@ -111,17 +111,20 @@ def edit_book(session,
               price):
     try:
         book = session.query(Book).filter(Book.id == id).first()
-        book.title = title
-        book.category = category
-        book.collection_id = collection_id
-        book.publisher_id = publisher_id
-        book.author_id = author_id
-        book.UDC = UDC
-        book.year_of_publication = year_of_publication
-        book.place_of_publication = place_of_publication
-        book.ISBN = ISBN
-        book.price = price
-        return book.serialize(), None
+        if book:
+            book.title = title
+            book.category = category
+            book.collection_id = collection_id
+            book.publisher_id = publisher_id
+            book.author_id = author_id
+            book.UDC = UDC
+            book.year_of_publication = year_of_publication
+            book.place_of_publication = place_of_publication
+            book.ISBN = ISBN
+            book.price = price
+            return book.serialize(), None
+        else:
+            return None, "Book not found"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
