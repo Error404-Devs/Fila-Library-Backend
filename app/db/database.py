@@ -197,6 +197,11 @@ class DataBase:
                                  status=status)
 
     @staticmethod
+    def remove_inventory_item_from_borrow_record(borrow_id):
+        with session_scope() as session:
+            return remove_inventory_item_from_borrow_record(session=session, borrow_id=borrow_id)
+
+    @staticmethod
     def return_book(borrow_id):
         with session_scope() as session:
             return return_book(session=session,
