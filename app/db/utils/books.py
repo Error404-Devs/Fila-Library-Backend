@@ -4,53 +4,57 @@ from sqlalchemy import func, String
 from app.db.models.books import Book
 from app.db.models.authors import Authors
 from app.db.models.publishers import Publishers
+from sqlalchemy import func, String
+from sqlalchemy.exc import SQLAlchemyError
 
 
-def get_books(session, title, category, publisher, author, location, year):
+def get_books(session, title=None, category=None, publisher=None, author=None, location=None, year=None):
     try:
-        books = None
         books_query = session.query(Book)
         authors_query = session.query(Authors)
         publishers_query = session.query(Publishers)
 
         # Apply filters if they exist
         if category:
-            books_query = books_query.filter(func.lower(Book.category).like(f'%{category}%'))
+            books_query = books_query.filter(
+                func.lower(func.unaccent(Book.category)).like(f'%{category.lower()}%'))
 
         if title:
-            books_query = books_query.filter(func.lower(Book.title).like(f'%{title.lower()}%'))
+            books_query = books_query.filter(
+                func.lower(func.unaccent(Book.title)).like(f'%{title.lower()}%'))
 
-        if location and books_query:
-            books_query = books_query.filter(func.lower(Book.place_of_publication).like(f'%{location.lower()}%'))
+        if location:
+            books_query = books_query.filter(
+                func.lower(func.unaccent(Book.place_of_publication)).like(f'%{location.lower()}%'))
 
-        if year and books_query:
-            books_query = books_query.filter(func.cast(Book.year_of_publication, String).like(f'%{year}%'))
+        if year:
+            books_query = books_query.filter(
+                func.cast(Book.year_of_publication, String).like(f'%{year}%'))
 
         if publisher:
             publishers = publishers_query.filter(
-                func.lower(Publishers.name).like(f'%{publisher.lower()}%')).all()
+                func.lower(func.unaccent(Publishers.name)).like(f'%{publisher.lower()}%')
+            ).all()
 
             if publishers:
                 publisher_ids = [publisher.id for publisher in publishers]
                 books_query = books_query.filter(Book.publisher_id.in_(publisher_ids))
             else:
-                books_query = None
+                return None, "No books found for these filters"
 
-        if author and books_query:
+        if author:
             authors = authors_query.filter(
-                func.lower(Authors.first_name).like(f'%{author.lower()}%') |
-                func.lower(Authors.last_name).like(f'%{author.lower()}%')
+                func.lower(func.unaccent(Authors.first_name)).like(f'%{author.lower()}%') |
+                func.lower(func.unaccent(Authors.last_name)).like(f'%{author.lower()}%')
             ).all()
 
             if authors:
                 author_ids = [author.id for author in authors]
                 books_query = books_query.filter(Book.author_id.in_(author_ids))
             else:
-                books_query = None
+                return None, "No books found for these filters"
 
-
-        if books_query:
-            books = books_query.all()
+        books = books_query.all()
 
         if books:
             return Book.serialize_books(books), None
@@ -60,7 +64,7 @@ def get_books(session, title, category, publisher, author, location, year):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def register_book(session,
