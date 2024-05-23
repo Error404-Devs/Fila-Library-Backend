@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
 from app.db.database import db
-from app.core.config import ACCESS_SECRET, REFRESH_SECRET, ACCESS_EXPIRY
+from app.core.config import ACCESS_SECRET, REFRESH_SECRET, ACCESS_EXPIRY, REFRESH_EXPIRY
 
 
 class AuthHandler:
@@ -55,5 +55,5 @@ class AuthHandler:
 
     def generate_tokens(self, user_id):
         access_token = self.encode_token(user_id, self.access_secret, timedelta(seconds=int(ACCESS_EXPIRY)))
-        refresh_token = self.encode_token(user_id, self.refresh_secret, timedelta(days=1))
+        refresh_token = self.encode_token(user_id, self.refresh_secret, timedelta(days=float(REFRESH_EXPIRY)))
         return access_token, refresh_token
