@@ -7,10 +7,10 @@ from app.api.schemas.statistics import *
 
 
 @statistics_router.get("/statistics")
-def monthly_statistics(month: int = None):
-    statistics, error = get_monthly_statistics(month)
+def monthly_statistics(month: int = None, year: int = None):
+    statistics, error = get_monthly_statistics(month, year)
     if not error:
         return statistics
     else:
-        raise HTTPException(status_code=500, detail=error)
+        raise HTTPException(status_code=404, detail=error)
 

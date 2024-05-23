@@ -82,9 +82,10 @@ def get_borrow_info(session, borrow_id):
         return error
 
 
-def get_monthly_borrows(session, month):
+def get_monthly_borrows(session, month, year):
     try:
-        query = session.query(Borrows).filter(extract('month', Borrows.borrow_date) == month).all()
+        query = session.query(Borrows).filter(extract('month', Borrows.borrow_date) == month,
+                                              extract('year', Borrows.borrow_date) == year).all()
         if query:
             return Borrows.serialize_borrows(query), None
         else:
