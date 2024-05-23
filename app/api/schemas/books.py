@@ -6,7 +6,6 @@ from pydantic import BaseModel
 
 
 class Book(BaseModel):
-    id: UUID
     title: str
     category: Optional[str]
     collection_id: Optional[UUID]
@@ -37,18 +36,18 @@ class BookEdit(BaseModel):
 class BookResponse(BaseModel):
     id: UUID
     title: str
-    category: Optional[str]
-    collection: Optional[str]
-    publisher: Optional[str]
-    author: Optional[str]
-    UDC: Optional[str]
-    year_of_publication: Optional[str]
-    place_of_publication: Optional[str]
-    ISBN: Optional[str]
-    price: Optional[str]
-    total_copies: Optional[int]
-    available_copies: Optional[int]
-    borrowed_copies: Optional[int]
+    category: Optional[str] = None
+    collection: Optional[str] = None
+    publisher: Optional[str] = None
+    author: Optional[str] = None
+    UDC: Optional[str] = None
+    year_of_publication: Optional[str] | Optional[int] = None
+    place_of_publication: Optional[str] = None
+    ISBN: Optional[str] = None
+    price: Optional[str] | Optional[int] = None
+    total_copies: Optional[int] = None
+    available_copies: Optional[int] = None
+    borrowed_copies: Optional[int] = None
     created_at: datetime
 
     class Config:
