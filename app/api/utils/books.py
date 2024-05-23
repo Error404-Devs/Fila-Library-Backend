@@ -76,6 +76,8 @@ def register_book(book_data):
     # If copies are found in book_data register them in inventory
 
     copies = int(book_data.get("copies"))
+    book_data["total_copies"] = copies
+    book_data["available_copies"] = copies
     while copies:
         copy_id = str(uuid4())
         db.register_copy(id=copy_id,
