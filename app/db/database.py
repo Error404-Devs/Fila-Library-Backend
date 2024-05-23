@@ -253,8 +253,9 @@ class DataBase:
     # STATISTICS
 
     @staticmethod
-    def get_monthly_borrows(month):
+    def get_monthly_borrows(month, year):
         with session_scope() as session:
-            return get_monthly_borrows(session=session, month=month)
+            return get_monthly_borrows(session=session, month=month, year=year)
+
 
 db = DataBase()

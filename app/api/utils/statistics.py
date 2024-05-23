@@ -2,8 +2,8 @@ from app.db.database import db
 import calendar, datetime
 
 
-def get_monthly_statistics(month):
-    monthly_borrows, error = db.get_monthly_borrows(month)
+def get_monthly_statistics(month, year):
+    monthly_borrows, error = db.get_monthly_borrows(month, year)
     returned_object = {
         "male_readers": 0,
         "female_readers": 0,
