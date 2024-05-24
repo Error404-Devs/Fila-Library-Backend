@@ -16,6 +16,7 @@ class Person(Base):
     group = Column(String, nullable=False)
     address = Column(String, nullable=False)
     phone_number = Column(String, nullable=False)
+    location = Column(String, nullable=False)
 
     def serialize(self):
         return {
@@ -26,7 +27,8 @@ class Person(Base):
             "year": self.year,
             "group": self.group,
             "address": self.address,
-            "phone_number": self.phone_number
+            "phone_number": self.phone_number,
+            "location": self.location
         }
 
     @staticmethod
@@ -41,6 +43,7 @@ class Person(Base):
                 "year": str(person.year),
                 "group": str(person.group),
                 "address": str(person.address),
-                "phone_number": str(person.phone_number)
+                "phone_number": str(person.phone_number),
+                "location": str(person.location)
             }
         return serialized_persons

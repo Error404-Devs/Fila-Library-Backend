@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -17,6 +17,7 @@ class Book(BaseModel):
     ISBN: Optional[str]
     price: Optional[int]
     copies: int
+    location: Literal["high", "kinder"]
 
 
 class BookEdit(BaseModel):
@@ -31,6 +32,7 @@ class BookEdit(BaseModel):
     place_of_publication: Optional[str]
     ISBN: Optional[str]
     price: Optional[int]
+    location: Literal["high", "kinder"]
 
 
 class BookResponse(BaseModel):

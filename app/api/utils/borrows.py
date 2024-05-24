@@ -63,11 +63,12 @@ def get_student_borrows(person_id):
     # Verify if person is in database
     person, error = db.get_person(person_id)
     if person:
+        person_location = person.get("place")
         borrows, error = db.get_person_borrows(person_id)
         authors_data, _ = db.get_authors()
         if borrows:
             for borrow in borrows:
-                book_info, error = db.get_book_info(borrow.get("book_id"))
+                book_info, error = db.get_book_info(borrow.get("book_id"), person_location)
                 borrow["book_name"] = book_info.get("title")
 
                 # Get author data

@@ -39,39 +39,68 @@ class DataBase:
     # BOOKS
 
     @staticmethod
-    def get_books(title, category, publisher, author, location, year):
+    def get_kinder_books(title, category, publisher, author, location, year):
         with session_scope() as session:
-            return get_books(session=session,
-                             title=title,
-                             category=category,
-                             publisher=publisher,
-                             author=author,
-                             location=location,
-                             year=year)
+            return get_kinder_books(session=session,
+                                    title=title,
+                                    category=category,
+                                    publisher=publisher,
+                                    author=author,
+                                    location=location,
+                                    year=year)
 
     @staticmethod
-    def register_book(id, title, category, collection_id, publisher_id, author_id,
+    def get_high_books(title, category, publisher, author, location, year):
+        with session_scope() as session:
+            return get_high_books(session=session,
+                                  title=title,
+                                  category=category,
+                                  publisher=publisher,
+                                  author=author,
+                                  location=location,
+                                  year=year)
+
+    @staticmethod
+    def register_kinder_book(id, title, category, collection_id, publisher_id, author_id,
                       UDC, year_of_publication, place_of_publication, ISBN, price, created_at):
         with session_scope() as session:
-            return register_book(session=session,
-                                 id=id,
-                                 title=title,
-                                 category=category,
-                                 collection_id=collection_id,
-                                 publisher_id=publisher_id,
-                                 author_id=author_id,
-                                 UDC=UDC,
-                                 year_of_publication=year_of_publication,
-                                 place_of_publication=place_of_publication,
-                                 ISBN=ISBN,
-                                 price=price,
-                                 created_at=created_at)
+            return register_kinder_book(session=session,
+                                        id=id,
+                                        title=title,
+                                        category=category,
+                                        collection_id=collection_id,
+                                        publisher_id=publisher_id,
+                                        author_id=author_id,
+                                        UDC=UDC,
+                                        year_of_publication=year_of_publication,
+                                        place_of_publication=place_of_publication,
+                                        ISBN=ISBN,
+                                        price=price,
+                                        created_at=created_at)
 
     @staticmethod
-    def edit_book(id, title, category, collection_id, publisher_id, author_id,
+    def register_high_book(id, title, category, collection_id, publisher_id, author_id,
+                             UDC, year_of_publication, place_of_publication, ISBN, price, created_at):
+        with session_scope() as session:
+            return register_high_book(session=session,
+                                        id=id,
+                                        title=title,
+                                        category=category,
+                                        collection_id=collection_id,
+                                        publisher_id=publisher_id,
+                                        author_id=author_id,
+                                        UDC=UDC,
+                                        year_of_publication=year_of_publication,
+                                        place_of_publication=place_of_publication,
+                                        ISBN=ISBN,
+                                        price=price,
+                                        created_at=created_at)
+
+    @staticmethod
+    def edit_kinder_book(id, title, category, collection_id, publisher_id, author_id,
                   UDC, year_of_publication, place_of_publication, ISBN, price):
         with session_scope() as session:
-            return edit_book(session=session,
+            return edit_kinder_book(session=session,
                              id=id,
                              title=title,
                              category=category,
@@ -85,9 +114,26 @@ class DataBase:
                              price=price)
 
     @staticmethod
-    def get_book_info(book_id):
+    def edit_high_book(id, title, category, collection_id, publisher_id, author_id,
+                         UDC, year_of_publication, place_of_publication, ISBN, price):
         with session_scope() as session:
-            return get_book_info(session=session, book_id=book_id)
+            return edit_kinder_book(session=session,
+                                    id=id,
+                                    title=title,
+                                    category=category,
+                                    collection_id=collection_id,
+                                    publisher_id=publisher_id,
+                                    author_id=author_id,
+                                    UDC=UDC,
+                                    year_of_publication=year_of_publication,
+                                    place_of_publication=place_of_publication,
+                                    ISBN=ISBN,
+                                    price=price)
+
+    @staticmethod
+    def get_book_info(book_id, person_location):
+        with session_scope() as session:
+            return get_book_info(session=session, book_id=book_id, person_location=person_location)
 
     # ADMINS
 
