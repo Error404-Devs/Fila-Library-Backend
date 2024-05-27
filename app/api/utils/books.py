@@ -110,7 +110,8 @@ def register_book(admin_id, book_data):
         copy_id = str(uuid4())
         db.register_copy(id=copy_id,
                          book_id=book_id,
-                         status=False)
+                         status=False,
+                         book_type=admin_role)
         copies = copies - 1
     return book_data, None
 

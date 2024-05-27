@@ -28,11 +28,17 @@ def get_books_inventory(session):
         return error
 
 
-def register_copy(session, id, book_id, status):
+def register_copy(session, id, book_id, status, book_type):
     try:
         obj = Inventory(id=id,
                         book_id=book_id,
-                        status=status)
+                        status=status,
+                        number=10000, # mock value, this needs to be worked on
+                        book_type=book_type)
+
+        if not obj.validate_book_id(session):
+            raise ValueError("Invalid book_id or book_type")
+
         session.add(obj)
         return obj
     except SQLAlchemyError as e:
