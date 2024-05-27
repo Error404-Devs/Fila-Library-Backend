@@ -194,12 +194,13 @@ class DataBase:
     # INVENTORY
 
     @staticmethod
-    def register_copy(id, book_id, status):
+    def register_copy(id, book_id, status, book_type):
         with session_scope() as session:
             return register_copy(session=session,
                                  id=id,
                                  book_id=book_id,
-                                 status=status)
+                                 status=status,
+                                 book_type=book_type)
 
     @staticmethod
     def remove_copy(inventory_id):
