@@ -8,7 +8,7 @@ from app.api.schemas.statistics import *
 
 @statistics_router.get("/statistics")
 def monthly_statistics(month: int = None, year: int = None):
-    statistics, error = get_monthly_statistics(month, year)
+    statistics, error = get_statistics(month, year)
     if not error:
         return statistics
     else:

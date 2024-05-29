@@ -96,6 +96,21 @@ def get_monthly_borrows(session, month, year):
         return error
 
 
+def get_daily_borrows(session, month, year, day):
+    try:
+        query = session.query(Borrows).filter(extract('month', Borrows.borrow_date) == month,
+                                              extract('year', Borrows.borrow_date) == year,
+                                              extract('day', Borrows.borrow_date) == day).all()
+        if query:
+            return Borrows.serialize_borrows(query), None
+        else:
+            return None, "No borrows found for this month"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return error
+
+
 def get_book_borrows(session, book_id):
     try:
         query = session.query(Borrows).filter(Borrows.book_id == book_id).all()

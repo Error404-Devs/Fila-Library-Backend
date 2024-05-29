@@ -1,3 +1,5 @@
+import calendar, datetime
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from contextlib import contextmanager
@@ -302,6 +304,11 @@ class DataBase:
     def get_monthly_borrows(month, year):
         with session_scope() as session:
             return get_monthly_borrows(session=session, month=month, year=year)
+
+    @staticmethod
+    def get_daily_borrows(month, year, day):
+        with session_scope() as session:
+            return get_daily_borrows(session=session, month=month, year=year, day=day)
 
 
 db = DataBase()
