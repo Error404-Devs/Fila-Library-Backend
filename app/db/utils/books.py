@@ -157,7 +157,7 @@ def register_kinder_book(session,
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def register_high_book(session,
@@ -191,7 +191,7 @@ def register_high_book(session,
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def edit_kinder_book(session,
@@ -279,4 +279,4 @@ def get_book_info(session, book_id, person_location):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error

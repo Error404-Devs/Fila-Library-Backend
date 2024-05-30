@@ -12,7 +12,7 @@ def get_admins(session):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def get_admin(session, admin_id):
@@ -37,4 +37,4 @@ def create_admin(session, id, email, hashed_password):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error

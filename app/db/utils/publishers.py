@@ -12,7 +12,7 @@ def get_publishers(session):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def create_publisher(session, publisher_id, name):
@@ -24,5 +24,4 @@ def create_publisher(session, publisher_id, name):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
-
+        return None, error

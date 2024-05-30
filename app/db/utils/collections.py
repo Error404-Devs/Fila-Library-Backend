@@ -12,4 +12,4 @@ def get_collections(session):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error

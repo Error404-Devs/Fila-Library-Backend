@@ -12,7 +12,7 @@ def get_book_inventory(session, book_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def get_books_inventory(session):
@@ -25,7 +25,7 @@ def get_books_inventory(session):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def register_copy(session, id, book_id, status, book_type):
@@ -44,7 +44,7 @@ def register_copy(session, id, book_id, status, book_type):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def remove_copy(session, inventory_id):
@@ -56,7 +56,7 @@ def remove_copy(session, inventory_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def update_inventory_copy(session, book_id, status):
@@ -71,4 +71,4 @@ def update_inventory_copy(session, book_id, status):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
