@@ -12,7 +12,7 @@ def get_person(session, person_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def create_person(session, first_name, last_name, gender, year, group, address, phone_number, person_id):
@@ -30,7 +30,7 @@ def create_person(session, first_name, last_name, gender, year, group, address, 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def edit_person(session, first_name, last_name, gender, year, group, address, phone_number, person_id):
@@ -51,4 +51,4 @@ def edit_person(session, first_name, last_name, gender, year, group, address, ph
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error

@@ -12,7 +12,7 @@ def get_authors(session):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def create_author(session, id, first_name, last_name):
@@ -25,4 +25,4 @@ def create_author(session, id, first_name, last_name):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error

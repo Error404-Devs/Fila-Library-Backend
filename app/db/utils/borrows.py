@@ -24,7 +24,7 @@ def create_borrow(session,
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def remove_inventory_item_from_borrow_record(session, borrow_id):
@@ -38,7 +38,7 @@ def remove_inventory_item_from_borrow_record(session, borrow_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def return_book(session, borrow_id):
@@ -53,7 +53,7 @@ def return_book(session, borrow_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def get_person_borrows(session, person_id):
@@ -66,7 +66,7 @@ def get_person_borrows(session, person_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def get_borrow_info(session, borrow_id):
@@ -79,7 +79,7 @@ def get_borrow_info(session, borrow_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def get_monthly_borrows(session, month, year):
@@ -93,7 +93,7 @@ def get_monthly_borrows(session, month, year):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def get_daily_borrows(session, month, year, day):
@@ -108,7 +108,7 @@ def get_daily_borrows(session, month, year, day):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
 
 
 def get_book_borrows(session, book_id):
@@ -121,4 +121,4 @@ def get_book_borrows(session, book_id):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
-        return error
+        return None, error
