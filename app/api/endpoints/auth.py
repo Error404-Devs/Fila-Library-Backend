@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Response, Depends
+from fastapi import APIRouter, HTTPException
 
 from app.api.utils.auth import *
 from app.api.schemas.auth import *
@@ -31,9 +31,3 @@ def refresh_token(refresh_token: str):
         raise HTTPException(status_code=401, detail=error)
     refresh_response["expires_in"] = ACCESS_EXPIRY
     return refresh_response
-
-
-# endpoint for testing
-@auth_router.get("/auth/protected")
-def protected(user_id: str = Depends(auth_handler.auth_wrapper)):
-    return {"user_id": user_id}

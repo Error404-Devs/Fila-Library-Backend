@@ -19,24 +19,28 @@ def get_book_inventory(book_id):
         return None, error
 
 
-def manage_book_inventory_record(data):
+def manage_book_inventory_record(admin_id, data):
     record_data = data.model_dump()
     book_id = record_data.get("book_id")
     quantity = record_data.get("quantity")
     borrow_id = record_data.get("borrow_id")
 
-    if quantity:
-        inventory_data, error = db.get_book_inventory(book_id)
+    admin_data, _ = db.get_admin(admin_id)
+    admin_role = admin_data.get("role")
 
+    if quantity:
         # Loop through the number of copies to add or remove
         for i in range(int(abs(quantity))):
+            error = None
             if quantity > 0:
                 # If quantity is positive, add a new copy
                 inventory_id = str(uuid4())
                 db.register_copy(id=inventory_id,
                                  book_id=book_id,
-                                 status=False)
+                                 status=False,
+                                 book_type=admin_role)
             else:
+                inventory_data, error = db.get_book_inventory(book_id)
                 # If quantity is negative, remove an existing copy
                 for index, item in enumerate(inventory_data):
                     if not item.get("status"):

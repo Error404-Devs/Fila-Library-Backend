@@ -17,8 +17,8 @@ class Admins(Base):
         return {
             "id": str(self.id),
             "email": str(self.email),
-            "role": str(self.role),
-            "hashed_password": str(self.hashed_password)
+            "hashed_password": str(self.hashed_password),
+            "role": str(self.role)
         }
 
     @staticmethod
@@ -28,7 +28,7 @@ class Admins(Base):
             serialized_admins[str(admin.id)] = {
                 "id": str(admin.id),
                 "email": str(admin.email),
-                "role": str(admin.role),
-                "hashed_password": str(admin.hashed_password)
+                "hashed_password": str(admin.hashed_password),
+                "role": str(admin.role)
         }
         return serialized_admins
