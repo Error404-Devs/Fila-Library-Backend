@@ -19,7 +19,7 @@ def book_borrow(data: BorrowData):
 
 
 @borrows_router.post("/return", response_model=Borrow)
-def book_return(data: ReturnData):
+def book_return(data: ReturnData, admin_id: str = Depends(auth_handler.auth_wrapper)):
     return_data = data.model_dump()
     response, error = create_return(return_data)
     if error:
@@ -28,7 +28,7 @@ def book_return(data: ReturnData):
 
 
 @borrows_router.get("/borrows/book", response_model=List[BookBorrowers])
-def book_borrowers(book_id: str = None):
+def book_borrowers(book_id: str = None, admin_id: str = Depends(auth_handler.auth_wrapper)):
     response, error = get_book_borrowers(book_id=book_id)
     if error:
         raise HTTPException(status_code=404, detail=error)
