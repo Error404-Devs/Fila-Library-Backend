@@ -20,7 +20,7 @@ def create_borrow(session,
                       due_date=due_date,
                       status=status)
         session.add(obj)
-        return obj, None
+        return Borrows.serialize(obj), None
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
@@ -56,9 +56,9 @@ def return_book(session, borrow_id):
         return None, error
 
 
-def get_person_borrows(session, person_id):
+def get_person_borrows(session, id):
     try:
-        query = session.query(Borrows).filter(Borrows.person_id == person_id).all()
+        query = session.query(Borrows.person_id == id).all()
         if query:
             return Borrows.serialize_borrows(query), None
         else:
