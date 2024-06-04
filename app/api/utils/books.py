@@ -106,13 +106,30 @@ def register_book(admin_id, book_data):
     copies = int(book_data.get("copies"))
     book_data["total_copies"] = copies
     book_data["available_copies"] = copies
+
+    added_copies = []
+    existing_inventory_numbers = []
     while copies:
-        copy_id = str(uuid4())
-        db.register_copy(id=copy_id,
-                         book_id=book_id,
-                         status=False,
-                         book_type=admin_role)
+        inventory_numbers = book_data.get("inventory_numbers")
+
+        copy, _ = db.get_book_inventory_by_inventory_number(inventory_numbers[-1])
+
+        if copy:
+            existing_inventory_numbers.append(inventory_numbers[-1])
+            book_data["existing_inventory_numbers"] = existing_inventory_numbers
+        else:
+            inventory_id = str(uuid4())
+            copy = db.register_copy(id=inventory_id,
+                                    book_id=book_id,
+                                    status=False,
+                                    book_type=admin_role,
+                                    inventory_number=inventory_numbers[-1])
+
+            added_copies.append(copy.get("number"))
+            book_data["added_copies"] = added_copies
+
         copies = copies - 1
+        inventory_numbers.pop()
     return book_data, None
 
 
