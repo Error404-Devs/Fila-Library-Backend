@@ -65,9 +65,10 @@ def create_return(return_data):
 def get_student_borrows(first_name, last_name):
     # Verify if person is in database
     person, error = db.get_persons(first_name=first_name, last_name=last_name)
+    person = person[next(iter(person))]
     if person:
-        person_location = person.get("place")
-        borrows, error = db.get_person_borrows(person.get("id"))
+        person_location = person.get("location")
+        borrows, error = db.get_person_borrows(id=person.get("id"))
         authors_data, _ = db.get_authors()
         if borrows:
             for borrow in borrows:
