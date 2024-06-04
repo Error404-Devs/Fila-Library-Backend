@@ -6,14 +6,15 @@ from app.db.database import db
 
 def create_borrow(borrow_data):
     borrow_id = str(uuid4())
-    person_id = borrow_data.get("person_id")
-    person_info, error = db.get_person(person_id=person_id)
+    person_first = borrow_data.get("first_name")
+    person_last = borrow_data.get("last_name")
+    person_info, error = db.get_person(first_name=person_first, last_name=person_last)
     if not error:
         # Update book from inventory status
         borrow_inventory, error = db.update_inventory_copy(book_id=borrow_data.get("book_id"), status=True)
         if borrow_inventory:
             borrow = db.create_borrow(borrow_id=borrow_id,
-                                      person_id=borrow_data.get("person_id"),
+                                      person_id=person_info.get("id"),
                                       inventory_id=str(borrow_inventory),
                                       book_id=borrow_data.get("book_id"),
                                       borrow_date=datetime.utcnow(),
@@ -23,19 +24,21 @@ def create_borrow(borrow_data):
         else:
             return None, error
     else:
-        account = db.create_person(person_id=borrow_data.get("person_id"),
+        print(borrow_data.get("location"))
+        account = db.create_person(person_id=uuid4(),
                                    first_name=borrow_data.get("first_name"),
                                    last_name=borrow_data.get("last_name"),
                                    gender=borrow_data.get("gender"),
                                    year=borrow_data.get("year"),
                                    group=borrow_data.get("group"),
                                    address=borrow_data.get("address"),
+                                   location=borrow_data.get("location"),
                                    phone_number=borrow_data.get("phone_number"))
         # Update book from inventory status
         borrow_inventory, error = db.update_inventory_copy(book_id=borrow_data.get("book_id"), status=True)
         if borrow_inventory:
             borrow = db.create_borrow(borrow_id=borrow_id,
-                                      person_id=borrow_data.get("person_id"),
+                                      person_id=person_info.get("id"),
                                       inventory_id=borrow_inventory,
                                       book_id=borrow_data.get("book_id"),
                                       borrow_date=datetime.utcnow(),
@@ -59,12 +62,12 @@ def create_return(return_data):
         return None, error
 
 
-def get_student_borrows(person_id):
+def get_student_borrows(first_name, last_name):
     # Verify if person is in database
-    person, error = db.get_person(person_id)
+    person, error = db.get_persons(first_name=first_name, last_name=last_name)
     if person:
         person_location = person.get("place")
-        borrows, error = db.get_person_borrows(person_id)
+        borrows, error = db.get_person_borrows(person.get("id"))
         authors_data, _ = db.get_authors()
         if borrows:
             for borrow in borrows:

@@ -12,3 +12,11 @@ def edit_person(person_data):
                                         phone_number=person_data.get("phone_number"))
 
     return person_data, error
+
+
+def get_persons(first_name, last_name):
+    persons_data, error = db.get_persons(first_name=first_name, last_name=last_name)
+    if not error:
+        return persons_data, None
+    else:
+        return None, error
