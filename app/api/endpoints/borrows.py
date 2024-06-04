@@ -10,16 +10,16 @@ auth_handler = AuthHandler()
 
 
 @borrows_router.post("/borrows", response_model=Borrow)
-def book_borrow(data: BorrowData, admin_id: str = Depends(auth_handler.auth_wrapper)):
+def book_borrow(data: BorrowData):
     borrow_data = data.model_dump()
-    response, error = create_borrow(borrow_data)
+    response, error = create_borrow(borrow_data=borrow_data)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
 
 
 @borrows_router.post("/return", response_model=Borrow)
-def book_return(data: ReturnData, admin_id: str = Depends(auth_handler.auth_wrapper)):
+def book_return(data: ReturnData):
     return_data = data.model_dump()
     response, error = create_return(return_data)
     if error:
@@ -28,18 +28,21 @@ def book_return(data: ReturnData, admin_id: str = Depends(auth_handler.auth_wrap
 
 
 @borrows_router.get("/borrows/book", response_model=List[BookBorrowers])
-def book_borrowers(book_id: str = None, admin_id: str = Depends(auth_handler.auth_wrapper)):
-    response, error = get_book_borrowers(book_id)
+def book_borrowers(book_id: str = None):
+    response, error = get_book_borrowers(book_id=book_id)
     if error:
         raise HTTPException(status_code=404, detail=error)
     return response
 
 
-@borrows_router.get("/borrows", response_model=StudentBorrows)
-def student_borrows(person_id: str = None):
-    borrows, error = get_student_borrows(person_id)
+@borrows_router.get("/borrows", response_model=Optional[StudentBorrows])
+def student_borrows(first_name: str = None,
+                    last_name: str = None):
+    borrows, error = get_student_borrows(first_name=first_name, last_name=last_name)
     if error:
         raise HTTPException(status_code=401, detail=error)
-    else:
+    elif borrows["items"]:
         return borrows
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
 

@@ -17,3 +17,12 @@ def person_update(data: Student, admin_id: str = Depends(auth_handler.auth_wrapp
     if error:
         raise HTTPException(status_code=500, detail=error)
     return {"message": "Update successful"}
+
+
+@persons_router.get("/persons")
+def persons_fetch(first_name: str = None,
+                  last_name: str = None):
+    response, error = get_persons(first_name=first_name, last_name=last_name)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response

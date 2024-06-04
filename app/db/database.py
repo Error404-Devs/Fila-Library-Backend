@@ -64,7 +64,7 @@ class DataBase:
 
     @staticmethod
     def register_kinder_book(id, title, category, collection_id, publisher_id, author_id,
-                      UDC, year_of_publication, place_of_publication, ISBN, price, created_at):
+                             UDC, year_of_publication, place_of_publication, ISBN, price, created_at):
         with session_scope() as session:
             return register_kinder_book(session=session,
                                         id=id,
@@ -82,42 +82,42 @@ class DataBase:
 
     @staticmethod
     def register_high_book(id, title, category, collection_id, publisher_id, author_id,
-                             UDC, year_of_publication, place_of_publication, ISBN, price, created_at):
+                           UDC, year_of_publication, place_of_publication, ISBN, price, created_at):
         with session_scope() as session:
             return register_high_book(session=session,
-                                        id=id,
-                                        title=title,
-                                        category=category,
-                                        collection_id=collection_id,
-                                        publisher_id=publisher_id,
-                                        author_id=author_id,
-                                        UDC=UDC,
-                                        year_of_publication=year_of_publication,
-                                        place_of_publication=place_of_publication,
-                                        ISBN=ISBN,
-                                        price=price,
-                                        created_at=created_at)
+                                      id=id,
+                                      title=title,
+                                      category=category,
+                                      collection_id=collection_id,
+                                      publisher_id=publisher_id,
+                                      author_id=author_id,
+                                      UDC=UDC,
+                                      year_of_publication=year_of_publication,
+                                      place_of_publication=place_of_publication,
+                                      ISBN=ISBN,
+                                      price=price,
+                                      created_at=created_at)
 
     @staticmethod
     def edit_kinder_book(id, title, category, collection_id, publisher_id, author_id,
-                  UDC, year_of_publication, place_of_publication, ISBN, price):
+                         UDC, year_of_publication, place_of_publication, ISBN, price):
         with session_scope() as session:
             return edit_kinder_book(session=session,
-                             id=id,
-                             title=title,
-                             category=category,
-                             collection_id=collection_id,
-                             publisher_id=publisher_id,
-                             author_id=author_id,
-                             UDC=UDC,
-                             year_of_publication=year_of_publication,
-                             place_of_publication=place_of_publication,
-                             ISBN=ISBN,
-                             price=price)
+                                    id=id,
+                                    title=title,
+                                    category=category,
+                                    collection_id=collection_id,
+                                    publisher_id=publisher_id,
+                                    author_id=author_id,
+                                    UDC=UDC,
+                                    year_of_publication=year_of_publication,
+                                    place_of_publication=place_of_publication,
+                                    ISBN=ISBN,
+                                    price=price)
 
     @staticmethod
     def edit_high_book(id, title, category, collection_id, publisher_id, author_id,
-                         UDC, year_of_publication, place_of_publication, ISBN, price):
+                       UDC, year_of_publication, place_of_publication, ISBN, price):
         with session_scope() as session:
             return edit_kinder_book(session=session,
                                     id=id,
@@ -261,9 +261,9 @@ class DataBase:
                                borrow_id=borrow_id)
 
     @staticmethod
-    def get_person_borrows(person_id):
+    def get_person_borrows(id):
         with session_scope() as session:
-            return get_person_borrows(session=session, person_id=person_id)
+            return get_person_borrows(session=session, id=id)
 
     @staticmethod
     def get_borrow_info(borrow_id):
@@ -273,12 +273,12 @@ class DataBase:
     # PERSONS
 
     @staticmethod
-    def get_person(person_id):
+    def get_person(first_name, last_name):
         with session_scope() as session:
-            return get_person(session=session, person_id=person_id)
+            return get_person(session=session, first_name=first_name, last_name=last_name)
 
     @staticmethod
-    def create_person(person_id, first_name, last_name, gender, year, group, address, phone_number):
+    def create_person(person_id, first_name, last_name, gender, year, group, address, phone_number, location):
         with session_scope() as session:
             return create_person(session=session,
                                  person_id=person_id,
@@ -288,6 +288,7 @@ class DataBase:
                                  year=year,
                                  group=group,
                                  address=address,
+                                 location=location,
                                  phone_number=phone_number)
 
     @staticmethod
@@ -302,6 +303,11 @@ class DataBase:
                                group=group,
                                address=address,
                                phone_number=phone_number)
+
+    @staticmethod
+    def get_persons(first_name, last_name):
+        with session_scope() as session:
+            return get_persons(session, first_name=first_name, last_name=last_name)
 
     # STATISTICS
 

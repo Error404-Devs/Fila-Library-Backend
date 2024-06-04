@@ -1,12 +1,11 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Literal
 from uuid import UUID
 
 from pydantic import BaseModel
 
 
 class BorrowData(BaseModel):
-    person_id: Optional[str]
     first_name: Optional[str]
     last_name: Optional[str]
     gender: Optional[str]
@@ -16,6 +15,7 @@ class BorrowData(BaseModel):
     phone_number: Optional[str]
     book_id: str
     due_date: datetime
+    location: Literal['high', 'kinder']
 
 
 class ReturnData(BaseModel):

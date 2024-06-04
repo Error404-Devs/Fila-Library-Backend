@@ -8,7 +8,7 @@ from app.db.database import Base
 class Person(Base):
     __tablename__ = "persons"
 
-    id = Column(String, primary_key=True, nullable=False, default=uuid.uuid4)
+    id = Column(UUID, primary_key=True, nullable=False, default=uuid.uuid4)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     gender = Column(String, nullable=False)
