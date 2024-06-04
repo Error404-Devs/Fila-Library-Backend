@@ -196,30 +196,34 @@ class DataBase:
     # INVENTORY
 
     @staticmethod
-    def register_copy(id, book_id, status, book_type):
+    def register_copy(id, book_id, status, book_type, inventory_number):
         with session_scope() as session:
             return register_copy(session=session,
                                  id=id,
                                  book_id=book_id,
                                  status=status,
-                                 book_type=book_type)
+                                 book_type=book_type,
+                                 inventory_number=inventory_number)
 
     @staticmethod
-    def remove_copy(inventory_id):
+    def remove_copy(inventory_id=None, inventory_number=None):
         with session_scope() as session:
-            return remove_copy(session=session, inventory_id=inventory_id)
+            return remove_copy(session=session, inventory_id=inventory_id, inventory_number=inventory_number)
 
     @staticmethod
     def get_book_inventory(book_id):
         with session_scope() as session:
             return get_book_inventory(session=session, book_id=book_id)
 
+    @staticmethod
+    def get_book_inventory_by_inventory_number(inventory_number):
+        with session_scope() as session:
+            return get_book_inventory_by_inventory_number(session=session, inventory_number=inventory_number)
 
     @staticmethod
     def get_books_inventory():
         with session_scope() as session:
             return get_books_inventory(session=session)
-
 
     @staticmethod
     def update_inventory_copy(book_id, status):
