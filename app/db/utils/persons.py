@@ -36,21 +36,19 @@ def create_person(session, first_name, last_name, gender, year, group, address, 
         return None, error
 
 
-def edit_person(session, first_name, last_name, gender, year, group, address, phone_number, person_id):
+def edit_person(session, first_name, last_name, gender, year, group, address, phone_number):
     try:
-        person = session.query(Person).filter(Person.id == person_id).first()
-        if person:
-            person.id = person_id,
-            person.first_name = first_name,
-            person.last_name = last_name,
-            person.gender = gender,
-            person.year = year,
-            person.group = group,
-            person.address = address,
-            person.phone_number = phone_number
-            return person.serialize(), None
-        else:
-            return None, "Person not found"
+
+        person = session.query(Person).filter(Person.first_name == first_name,
+                                                 Person.last_name == last_name).first()
+        person.first_name = first_name,
+        person.last_name = last_name,
+        person.gender = gender,
+        person.year = year,
+        person.group = group,
+        person.address = address,
+        person.phone_number = phone_number
+        return person.serialize(), None
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
