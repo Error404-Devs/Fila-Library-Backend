@@ -292,16 +292,18 @@ class DataBase:
                                  phone_number=phone_number)
 
     @staticmethod
-    def edit_person(first_name, last_name, gender, year, group, address, phone_number):
+    def edit_person(id, first_name, last_name, gender, year, group, address, phone_number, location):
         with session_scope() as session:
             return edit_person(session=session,
+                               id=id,
                                first_name=first_name,
                                last_name=last_name,
                                gender=gender,
                                year=year,
                                group=group,
                                address=address,
-                               phone_number=phone_number)
+                               phone_number=phone_number,
+                               location=location)
 
     @staticmethod
     def get_persons(first_name, last_name):
