@@ -13,7 +13,7 @@ from app.api.endpoints.statistics import statistics_router
 
 app = FastAPI()
 
-origins = ["http://localhost:3000"]
+origins = ["http://localhost:3000", "https://fila-library.vercel.app"]
 
 app.add_middleware(
     CORSMiddleware,
