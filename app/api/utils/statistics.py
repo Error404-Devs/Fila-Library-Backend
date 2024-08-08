@@ -7,6 +7,16 @@ def get_statistics(month, year):
     total_frequency = 0
     total_enrolled = 0
 
+    now = datetime.datetime.now()
+    current_year = now.year
+    current_month = now.month
+
+    if current_year < year or (current_year == year and current_month < month):
+        returned_object = {
+            "daily": {},
+            "monthly": {}
+        }
+        return returned_object, None
     # Search how many days are in a specific given month
     month_days = calendar.monthrange(datetime.datetime.now().year, month)
 
@@ -22,44 +32,45 @@ def get_statistics(month, year):
             "over_14": 0,
             "frequency": 0
         }
+        if day <= now.day:
+            # Check enrolled students
 
-        # Check enrolled students
+            enrolled_persons, error = db.get_enrolled_persons(month, year, day)
+            returned_object["enrolled_persons"] = len(enrolled_persons)
+            total_enrolled = total_enrolled + returned_object["enrolled_persons"]
 
-        enrolled_persons, error = db.get_enrolled_persons(month, year, day)
-        returned_object["enrolled_persons"] = len(enrolled_persons)
-        total_enrolled = total_enrolled + returned_object["enrolled_persons"]
+            daily_borrows, error = db.get_daily_borrows(month, year, day)
+            if daily_borrows:
+                for daily_borrow in daily_borrows:
+                    borrow_person = daily_borrow["person_id"]
+                    if borrow_person not in frequency:
+                        frequency.append(borrow_person)
+                        returned_object["frequency"] += 1
+                    borrow_person_info, error = db.get_person(borrow_person)
 
-        daily_borrows, error = db.get_daily_borrows(month, year, day)
-        if daily_borrows:
-            for daily_borrow in daily_borrows:
-                borrow_person = daily_borrow["person_id"]
-                if borrow_person not in frequency:
-                    frequency.append(borrow_person)
-                    returned_object["frequency"] += 1
-                borrow_person_info, error = db.get_person(borrow_person)
+                    # Check if male of female
+                    if borrow_person_info.get("gender") == "male":
+                        returned_object["male_readers"] += 1
+                    else:
+                        returned_object["female_readers"] += 1
 
-                # Check if male of female
+                    # Check if over or under 14
 
-                if borrow_person_info.get("gender") == "male":
-                    returned_object["male_readers"] += 1
-                else:
-                    returned_object["female_readers"] += 1
+                    if borrow_person_info.get("year") > 8:
+                        returned_object["over_14"] += 1
+                    else:
+                        returned_object["under_14"] += 1
 
-                # Check if over or under 14
+                    # Total readers
 
-                if borrow_person_info.get("year") > 8:
-                    returned_object["over_14"] += 1
-                else:
-                    returned_object["under_14"] += 1
+                    returned_object["total_readers"] = returned_object["male_readers"] + returned_object["female_readers"]
 
-                # Total readers
-
-                returned_object["total_readers"] = returned_object["male_readers"] + returned_object["female_readers"]
-
+                    daily[day] = returned_object
+                total_frequency += returned_object["frequency"]
+            else:
                 daily[day] = returned_object
-            total_frequency += returned_object["frequency"]
         else:
-            daily[day] = returned_object
+            break
 
     monthly_borrows, error = db.get_monthly_borrows(month, year)
     monthly = {
