@@ -278,7 +278,7 @@ class DataBase:
             return get_person(session=session, first_name=first_name, last_name=last_name)
 
     @staticmethod
-    def create_person(person_id, first_name, last_name, gender, year, group, address, phone_number, location):
+    def create_person(person_id, first_name, last_name, gender, year, group, address, phone_number, location, created_at):
         with session_scope() as session:
             return create_person(session=session,
                                  person_id=person_id,
@@ -289,7 +289,8 @@ class DataBase:
                                  group=group,
                                  address=address,
                                  location=location,
-                                 phone_number=phone_number)
+                                 phone_number=phone_number,
+                                 created_at=created_at)
 
     @staticmethod
     def edit_person(id, first_name, last_name, gender, year, group, address, phone_number, location):
@@ -322,5 +323,9 @@ class DataBase:
         with session_scope() as session:
             return get_daily_borrows(session=session, month=month, year=year, day=day)
 
+    @staticmethod
+    def get_enrolled_persons(month, year, day):
+        with session_scope() as session:
+            return get_enrolled_persons(session=session, month=month, year=year, day=day)
 
 db = DataBase()
