@@ -3,10 +3,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.db.models.persons import Person
 from sqlalchemy import extract
 
-def get_person(session, first_name, last_name):
+def get_person(session, id):
     try:
-        person = session.query(Person).filter(Person.first_name == first_name,
-                                              Person.last_name == last_name).first()
+        person = session.query(Person).filter(Person.id == id).first()
         if person:
             return Person.serialize(person), None
         else:
@@ -37,7 +36,7 @@ def create_person(session, first_name, last_name, gender, year, group, address, 
         return None, error
 
 
-def edit_person(session, id, first_name, last_name, gender, year, group, address, phone_number, location):
+def edit_person(session, id, first_name, last_name, gender, year, group, address, phone_number):
     try:
 
         person = session.query(Person).filter(Person.id == id).first()
@@ -48,7 +47,6 @@ def edit_person(session, id, first_name, last_name, gender, year, group, address
         person.group = group,
         person.address = address,
         person.phone_number = phone_number
-        person.location = location
         return person.serialize(), None
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])

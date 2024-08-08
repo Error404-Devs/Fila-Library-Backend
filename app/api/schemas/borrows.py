@@ -6,16 +6,9 @@ from pydantic import BaseModel
 
 
 class BorrowData(BaseModel):
-    first_name: Optional[str]
-    last_name: Optional[str]
-    gender: Optional[str]
-    year: Optional[str]
-    group: Optional[str]
-    address: Optional[str]
-    phone_number: Optional[str]
+    id: str
     book_id: str
     due_date: datetime
-    location: Literal['high', 'kinder']
 
 
 class ReturnData(BaseModel):

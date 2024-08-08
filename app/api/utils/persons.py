@@ -31,8 +31,7 @@ def edit_person(person_data):
                                         year=person_data.get("year"),
                                         group=person_data.get("group"),
                                         address=person_data.get("address"),
-                                        phone_number=person_data.get("phone_number"),
-                                        location=person_data.get("location"))
+                                        phone_number=person_data.get("phone_number"))
     return person_data, error
 
 
