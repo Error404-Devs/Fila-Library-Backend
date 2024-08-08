@@ -1,7 +1,7 @@
 from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.models.persons import Person
-
+from sqlalchemy import extract
 
 def get_person(session, first_name, last_name):
     try:
@@ -17,7 +17,7 @@ def get_person(session, first_name, last_name):
         return None, error
 
 
-def create_person(session, first_name, last_name, gender, year, group, address, phone_number, person_id, location):
+def create_person(session, first_name, last_name, gender, year, group, address, phone_number, person_id, location, created_at):
     try:
         obj = Person(id=person_id,
                      first_name=first_name,
@@ -27,7 +27,8 @@ def create_person(session, first_name, last_name, gender, year, group, address, 
                      group=group,
                      address=address,
                      location=location,
-                     phone_number=phone_number)
+                     phone_number=phone_number,
+                     created_at=created_at)
         session.add(obj)
         return obj, None
     except SQLAlchemyError as e:
@@ -72,6 +73,21 @@ def get_persons(session, first_name, last_name):
         else:
             return None, "No persons found for these filters"
 
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+
+def get_enrolled_persons(session, month, year, day):
+    try:
+        query = session.query(Person).filter(extract('month', Person.created_at) == month,
+                                              extract('year', Person.created_at) == year,
+                                              extract('day', Person.created_at) == day).all()
+        if query:
+            return Person.serialize_persons(query), None
+        else:
+            return [], None
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)

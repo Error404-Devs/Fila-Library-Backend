@@ -122,3 +122,4 @@ def get_book_borrows(session, book_id):
         error = str(e.__dict__['orig'])
         print(error)
         return None, error
+
