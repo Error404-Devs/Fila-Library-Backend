@@ -12,7 +12,6 @@ class StudentUpdate(BaseModel):
     group: Optional[str]
     address: Optional[str]
     phone_number: Optional[str]
-    location: Optional[str]
 
 class StudentCreate(BaseModel):
     first_name: Optional[str]
