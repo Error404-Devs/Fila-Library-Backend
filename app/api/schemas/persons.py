@@ -22,4 +22,3 @@ class StudentCreate(BaseModel):
     group: Optional[str]
     address: Optional[str]
     phone_number: Optional[str]
-    location: Optional[str]
