@@ -12,7 +12,7 @@ class Inventory(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
     book_id = Column(UUID(as_uuid=True), nullable=False)
-    number = Column(Integer, nullable=False)
+    # number = Column(Integer, nullable=False)
     status = Column(Boolean, nullable=False)
     book_type = Column(String, nullable=False)
 
@@ -31,7 +31,7 @@ class Inventory(Base):
         return {
             "id": str(self.id),
             "book_id": str(self.book_id),
-            "number": int(self.number),
+            # "number": int(self.number),
             "book_type": str(self.book_type),
             "status": self.status
         }
@@ -43,7 +43,7 @@ class Inventory(Base):
             serialized_copy = {
                 "id": str(copy.id),
                 "book_id": str(copy.book_id),
-                "number": int(copy.number),
+                # "number": int(copy.number),
                 "book_type": str(copy.book_type),
                 "status": copy.status
             }

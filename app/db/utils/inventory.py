@@ -46,7 +46,7 @@ def register_copy(session, id, book_id, status, book_type): # inventory_number):
         obj = Inventory(id=id,
                         book_id=book_id,
                         status=status,
-                        number=10000, # THIS WILL BE CHANGED
+                        # number=10000,
                         book_type=book_type)
 
         if not obj.validate_book_id(session):
