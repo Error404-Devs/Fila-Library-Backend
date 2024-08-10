@@ -69,5 +69,5 @@ class BookBorrowers(BaseModel):
     address: Optional[str]
     phone_number: Optional[str]
     borrow_date: Optional[str]
-    due_date: Optional[str]
-    borrow_id: Optional[str]
+    due_date: str
+    borrow_id: str

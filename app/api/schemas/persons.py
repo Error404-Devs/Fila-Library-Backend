@@ -21,3 +21,13 @@ class StudentCreate(BaseModel):
     group: Optional[str]
     address: Optional[str]
     phone_number: Optional[str]
+
+class NewStudent(BaseModel):
+    id: str
+    first_name: str
+    last_name: str
+    gender: str
+    year: int
+    group: str
+    address: str
+    phone_number: str
