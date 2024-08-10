@@ -80,6 +80,7 @@ def get_book_borrowers(book_id):
                 person_data["borrow_date"] = item.get("borrow_date")
                 person_data["due_date"] = item.get("due_date")
                 person_data["borrow_id"] = item.get("id")
+                person_data["status"] = item.get("status")
                 persons.append(person_data)
         return persons, None
     return None, error
