@@ -71,4 +71,3 @@ class BookBorrowers(BaseModel):
     borrow_date: Optional[str]
     due_date: str
     borrow_id: str
-    status: str
