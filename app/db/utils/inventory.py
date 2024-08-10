@@ -15,17 +15,17 @@ def get_book_inventory(session, book_id):
         return None, error
 
 
-def get_book_inventory_by_inventory_number(session, inventory_number):
-    try:
-        copy = session.query(Inventory).filter(Inventory.number == inventory_number).first()
-        if copy:
-            return copy.serialize(), None
-        else:
-            return [], "Copy from inventory not found"
-    except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
-        print(error)
-        return None, error
+# def get_book_inventory_by_inventory_number(session, inventory_number):
+#     try:
+#         copy = session.query(Inventory).filter(Inventory.number == inventory_number).first()
+#         if copy:
+#             return copy.serialize(), None
+#         else:
+#             return [], "Copy from inventory not found"
+#     except SQLAlchemyError as e:
+#         error = str(e.__dict__['orig'])
+#         print(error)
+#         return None, error
 
 
 def get_books_inventory(session):
@@ -41,12 +41,12 @@ def get_books_inventory(session):
         return None, error
 
 
-def register_copy(session, id, book_id, status, book_type, inventory_number):
+def register_copy(session, id, book_id, status, book_type): # inventory_number):
     try:
         obj = Inventory(id=id,
                         book_id=book_id,
                         status=status,
-                        number=inventory_number,
+                        number=10000, # THIS WILL BE CHANGED
                         book_type=book_type)
 
         if not obj.validate_book_id(session):
@@ -60,13 +60,15 @@ def register_copy(session, id, book_id, status, book_type, inventory_number):
         return None, error
 
 
-def remove_copy(session, inventory_id=None, inventory_number=None):
+def remove_copy(session, inventory_id): # inventory_id=None, inventory_number=None):
     try:
-        if inventory_id:
-            copy = session.query(Inventory).filter(Inventory.id == inventory_id).first()
+        copy = session.query(Inventory).filter(Inventory.id == inventory_id).first()
 
-        if inventory_number:
-            copy = session.query(Inventory).filter(Inventory.number == inventory_number).first()
+        # if inventory_id:
+        #     copy = session.query(Inventory).filter(Inventory.id == inventory_id).first()
+        #
+        # if inventory_number:
+        #     copy = session.query(Inventory).filter(Inventory.number == inventory_number).first()
 
         if copy:
             session.delete(copy)
