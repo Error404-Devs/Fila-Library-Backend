@@ -46,3 +46,14 @@ def student_borrows(first_name: str = None,
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
+
+@borrows_router.get("/borrows/overdue", response_model=List[OverDue])
+def student_borrows_overdue(admin_id: str = Depends(auth_handler.auth_wrapper)):
+    borrows, error = get_student_borrows_overdue(admin_id)
+    if error:
+        raise HTTPException(status_code=401, detail=error)
+    elif borrows:
+        return borrows
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+

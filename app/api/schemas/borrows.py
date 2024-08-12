@@ -71,3 +71,22 @@ class BookBorrowers(BaseModel):
     borrow_date: Optional[str]
     due_date: str
     borrow_id: str
+
+
+class StudentSimple(BaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    gender: Optional[str]
+    year: Optional[int]
+    group: Optional[str]
+    address: Optional[str]
+    phone_number: Optional[str]
+
+class OverDue(BaseModel):
+    book_name: str
+    borrow_date: datetime
+    due_date: datetime
+    status: str
+    person_info: StudentSimple
+
+

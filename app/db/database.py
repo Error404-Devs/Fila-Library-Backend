@@ -270,6 +270,11 @@ class DataBase:
         with session_scope() as session:
             return get_borrow_info(session=session, borrow_id=borrow_id)
 
+    @staticmethod
+    def get_all_borrows_overdue():
+        with session_scope() as session:
+            return get_all_borrows_overdue(session=session)
+
     # PERSONS
 
     @staticmethod

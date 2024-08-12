@@ -70,6 +70,43 @@ def get_student_borrows(first_name, last_name):
         return None, error
 
 
+def get_student_borrows_overdue(admin_id):
+    returned_borrows = []
+    borrows, error = db.get_all_borrows_overdue()
+    # Verify if the sudents are from kinder or high
+
+    admin, _ = db.get_admin(admin_id)
+
+    if admin.get("role") == "kinder":
+        for borrow in borrows:
+            person_id = borrow.get("person_id")
+            person_info, _ = db.get_person(person_id)
+            if person_info.get("location") == "kinder":
+                # Get book info
+
+                book_info, _ = db.get_book_info(book_id=borrow.get("book_id"), person_location="kinder")
+
+                del borrow["person_id"], borrow["inventory_id"], borrow["book_id"], person_info["id"]
+
+                borrow["person_info"] = person_info
+                borrow["book_name"] = book_info.get("title")
+                returned_borrows.append(borrow)
+    else:
+        for borrow in borrows:
+            person_id = borrow.get("person_id")
+            person_info, _ = db.get_person(person_id)
+            if person_info.get("location") == "high":
+
+                # Get book info
+
+                book_info, _ = db.get_book_info(book_id=borrow.get("book_id"), person_location="kinder")
+
+                del borrow["person_id"], borrow["inventory_id"], borrow["book_id"], person_info["id"]
+
+                borrow["person_info"] = person_info
+                borrow["book_name"] = book_info.get("title")
+                returned_borrows.append(borrow)
+    return returned_borrows, None
 def get_book_borrowers(book_id):
     book_borrows, error = db.get_book_borrows(book_id)
     if book_borrows:
