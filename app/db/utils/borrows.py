@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy import extract
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.models.borrows import Borrows
@@ -74,6 +76,21 @@ def get_borrow_info(session, borrow_id):
         query = session.query(Borrows).filter(Borrows.id == borrow_id).first()
         if query:
             return Borrows.serialize(query), None
+        else:
+            return None, "No borrow found for this id"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+
+def get_all_borrows_overdue(session):
+    try:
+        current_time = datetime.datetime.now()
+        query = session.query(Borrows).filter(Borrows.due_date < current_time,
+                                              Borrows.status == True).all()
+        if query:
+            return Borrows.serialize_borrows(query), None
         else:
             return None, "No borrow found for this id"
     except SQLAlchemyError as e:
