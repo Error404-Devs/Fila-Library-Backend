@@ -41,7 +41,7 @@ def student_borrows(first_name: str = None,
     borrows, error = get_student_borrows(first_name=first_name, last_name=last_name)
     if error:
         raise HTTPException(status_code=401, detail=error)
-    elif borrows["items"]:
+    elif borrows["items"] or borrows["items"] == []:
         return borrows
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")

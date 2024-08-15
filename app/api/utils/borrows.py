@@ -36,6 +36,7 @@ def create_return(return_data):
 def get_student_borrows(first_name, last_name):
     # Verify if person is in database
     person, error = db.get_persons(first_name=first_name, last_name=last_name)
+    print(person)
     person = person[next(iter(person))]
     if person:
         person_location = person.get("location")
