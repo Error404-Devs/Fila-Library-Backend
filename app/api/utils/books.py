@@ -64,6 +64,17 @@ def get_books(admin_id, title, category, publisher, author, location, year):
         book["author"] = author_name
     return sorted_books_data, None
 
+def get_books_user(title):
+    books_data, error = db.get_kinder_books(title=title,
+                                            category=None,
+                                            publisher=None,
+                                            author=None,
+                                            location=None,
+                                            year=None)
+    sorted_books_data = sorted(books_data, key=lambda x: x["title"])
+    return sorted_books_data, None
+
+
 
 def register_book(admin_id, book_data):
     book_id = str(uuid4())

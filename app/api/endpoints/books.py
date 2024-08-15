@@ -36,6 +36,19 @@ def books_get(admin_id: str = Depends(auth_handler.auth_wrapper),
     else:
         return []
 
+@books_router.get("/books/student", response_model=Page[BookResponse])
+def books_get(title: str = None):
+    response, error = get_books_user(title=title)
+    if error:
+        raise HTTPException(status_code=404, detail=error)
+
+    disable_installed_extensions_check()
+    if response:
+        return paginate(response)
+    else:
+        return []
+
+
 
 add_pagination(books_router)
 
@@ -56,3 +69,5 @@ def book_edit(data: BookEdit, admin_id: str = Depends(auth_handler.auth_wrapper)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
+
+
