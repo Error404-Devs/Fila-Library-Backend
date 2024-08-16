@@ -71,9 +71,14 @@ def get_books_user(title):
                                             author=None,
                                             location=None,
                                             year=None)
-    sorted_books_data = sorted(books_data, key=lambda x: x["title"])
-    return sorted_books_data, None
-
+    if books_data:
+        sorted_books_data = sorted(books_data, key=lambda x: x["title"])
+        return sorted_books_data, None
+    else:
+        if error:
+            return None, error
+        else:
+            return [], None
 
 
 def register_book(admin_id, book_data):
