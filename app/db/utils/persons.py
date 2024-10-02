@@ -16,9 +16,35 @@ def get_person(session, id):
         return None, error
 
 
-def create_person(session, first_name, last_name, gender, year, group, address, phone_number, person_id, location, created_at):
+def get_person_by_login_id(session, login_id):
+    try:
+        person = session.query(Person).filter(Person.login_id == str(login_id)).first()
+        if person:
+            return None, "Login id unavailable"
+        else:
+            return "Login id available", None
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+
+def get_all_login_ids(session):
+    try:
+        person_ids = session.query(Person.login_id).all()
+
+        login_ids = [p[0] for p in person_ids]
+        return login_ids, None
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+
+def create_person(session, first_name, last_name, gender, year, group, address, phone_number, person_id, login_id, location, created_at):
     try:
         obj = Person(id=person_id,
+                     login_id=login_id,
                      first_name=first_name,
                      last_name=last_name,
                      gender=gender,

@@ -283,10 +283,21 @@ class DataBase:
             return get_person(session=session, id=id)
 
     @staticmethod
-    def create_person(person_id, first_name, last_name, gender, year, group, address, phone_number, location, created_at):
+    def get_person_by_login_id(login_id):
+        with session_scope() as session:
+            return get_person_by_login_id(session=session, login_id=login_id)
+
+    @staticmethod
+    def get_all_login_ids():
+        with session_scope() as session:
+            return get_all_login_ids(session=session)
+
+    @staticmethod
+    def create_person(person_id, login_id, first_name, last_name, gender, year, group, address, phone_number, location, created_at):
         with session_scope() as session:
             return create_person(session=session,
                                  person_id=person_id,
+                                 login_id=login_id,
                                  first_name=first_name,
                                  last_name=last_name,
                                  gender=gender,

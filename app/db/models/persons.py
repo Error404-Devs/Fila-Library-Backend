@@ -9,8 +9,10 @@ class Person(Base):
     __tablename__ = "persons"
 
     id = Column(UUID, primary_key=True, nullable=False, default=uuid.uuid4)
+    login_id = Column(Integer, nullable=False)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
+    email = Column(String, nullable=True)
     gender = Column(String, nullable=False)
     year = Column(Integer, nullable=False)
     group = Column(String, nullable=False)
@@ -22,6 +24,7 @@ class Person(Base):
     def serialize(self):
         return {
             "id": str(self.id),
+            "login_id": self.login_id,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "gender": self.gender,
@@ -39,6 +42,7 @@ class Person(Base):
         for person in persons:
             serialized_persons[str(person.id)] = {
                 "id": str(person.id),
+                "login_id": str(person.login_id),
                 "first_name": str(person.first_name),
                 "last_name": str(person.last_name),
                 "gender": str(person.gender),
