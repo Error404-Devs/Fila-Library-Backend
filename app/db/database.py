@@ -283,9 +283,9 @@ class DataBase:
             return get_person(session=session, id=id)
 
     @staticmethod
-    def get_person_by_login_id(login_id):
+    def get_person_by_login_id(login_id, first_name):
         with session_scope() as session:
-            return get_person_by_login_id(session=session, login_id=login_id)
+            return get_person_by_login_id(session=session, login_id=login_id, first_name=first_name)
 
     @staticmethod
     def get_all_login_ids():
