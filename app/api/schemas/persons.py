@@ -22,8 +22,10 @@ class StudentCreate(BaseModel):
     address: Optional[str]
     phone_number: Optional[str]
 
+
 class NewStudent(BaseModel):
     id: str
+    login_id: int
     first_name: str
     last_name: str
     gender: str

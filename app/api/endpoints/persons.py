@@ -9,13 +9,15 @@ persons_router = APIRouter(tags=["Persons"])
 
 auth_handler = AuthHandler()
 
+
 @persons_router.post("/persons", response_model=NewStudent)
-def person_update(data: StudentCreate, admin_id: str = Depends(auth_handler.auth_wrapper)):
+def person_create(data: StudentCreate, admin_id: str = Depends(auth_handler.auth_wrapper)):
     person_data = data.model_dump()
     response, error = create_person(person_data=person_data, admin_id=admin_id)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
+
 
 @persons_router.put("/persons")
 def person_update(data: StudentUpdate, admin_id: str = Depends(auth_handler.auth_wrapper)):
