@@ -16,13 +16,13 @@ def get_person(session, id):
         return None, error
 
 
-def get_person_by_login_id(session, login_id):
+def get_person_by_login_id(session, login_id, first_name):
     try:
         person = session.query(Person).filter(Person.login_id == str(login_id)).first()
-        if person:
-            return None, "Login id unavailable"
+        if person and person.first_name == first_name:
+            return person.serialize(), None
         else:
-            return "Login id available", None
+            return None, "Could not validate credentials"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)

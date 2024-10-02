@@ -36,9 +36,8 @@ def book_borrowers(book_id: str = None, admin_id: str = Depends(auth_handler.aut
 
 
 @borrows_router.get("/borrows", response_model=Optional[StudentBorrows])
-def student_borrows(first_name: str = None,
-                    last_name: str = None):
-    borrows, error = get_student_borrows(first_name=first_name, last_name=last_name)
+def student_borrows(login_id: str):
+    borrows, error = get_student_borrows(login_id=login_id)
     if error:
         raise HTTPException(status_code=401, detail=error)
     elif borrows["items"] or borrows["items"] == []:

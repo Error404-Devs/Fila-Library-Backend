@@ -1,5 +1,6 @@
 from datetime import datetime
 from uuid import uuid4
+import re
 
 from app.db.database import db
 
@@ -33,11 +34,18 @@ def create_return(return_data):
         return None, error
 
 
-def get_student_borrows(first_name, last_name):
+def get_student_borrows(login_id):
+
+    # Regex to separate alphabetic and numeric parts
+    match = re.match(r"([a-zA-Z]+)(\d+)", login_id)
+
+    if match:
+        first_name = match.group(1)
+        number = match.group(2)
+
     # Verify if person is in database
-    person, error = db.get_persons(first_name=first_name, last_name=last_name)
-    print(person)
-    person = person[next(iter(person))]
+    person, error = db.get_person_by_login_id(number, first_name)
+
     if person:
         person_location = person.get("location")
         borrows, error = db.get_person_borrows(id=person.get("id"))
