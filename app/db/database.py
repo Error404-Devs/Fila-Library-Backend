@@ -349,4 +349,11 @@ class DataBase:
         with session_scope() as session:
             return get_enrolled_persons(session=session, month=month, year=year, day=day)
 
+    # NOTIFICATIONS
+
+    @staticmethod
+    def get_subscribed_persons():
+        with session_scope() as session:
+            return get_subscribed_persons(session=session)
+
 db = DataBase()

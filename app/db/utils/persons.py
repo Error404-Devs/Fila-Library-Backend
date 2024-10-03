@@ -128,3 +128,15 @@ def get_enrolled_persons(session, month, year, day):
         error = str(e.__dict__['orig'])
         print(error)
         return None, error
+
+def get_subscribed_persons(session):
+    try:
+        query = session.query(Person).filter(Person.email != None).all()
+        if query:
+            return Person.serialize_persons(query), None
+        else:
+            return [], None
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error

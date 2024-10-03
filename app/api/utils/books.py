@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import uuid4
 from app.db.database import db
-
+from smtp import new_book_notification
 
 def get_books(admin_id, title, category, publisher, author, location, year):
     publishers_data, _ = db.get_publishers()
@@ -187,3 +187,11 @@ def edit_book(admin_id, book_data):
                                              price=book_data.get("price"))
 
     return book_data, error
+
+# Function that notifies subscribed students about new releases
+
+def student_notify(book_data):
+    subscribed_persons, error = db.get_subscribed_persons()
+    if subscribed_persons:
+        for person in subscribed_persons:
+            new_book_notification(receiver_email=person.get("email"), receiver_name=person.get("name"), book_name=book_data.get("name"))

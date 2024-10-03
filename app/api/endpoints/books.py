@@ -59,6 +59,11 @@ def book_register(data: Book, admin_id: str = Depends(auth_handler.auth_wrapper)
     response, error = register_book(admin_id=admin_id, book_data=book_data)
     if error:
         raise HTTPException(status_code=500, detail=error)
+
+    # Notify students about new books
+
+    notification_response, _ = student_notify(book_data)
+
     return response
 
 
