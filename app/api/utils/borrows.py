@@ -44,7 +44,7 @@ def get_student_borrows(login_id):
         number = match.group(2)
 
     # Verify if person is in database
-    person, error = db.get_person_by_login_id(number, first_name)
+    person, error = db.get_person_by_login_id_and_name(number, first_name)
 
     if person:
         person_location = person.get("location")

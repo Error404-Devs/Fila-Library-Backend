@@ -16,7 +16,19 @@ def get_person(session, id):
         return None, error
 
 
-def get_person_by_login_id(session, login_id, first_name):
+def get_person_by_login_id(session, login_id):
+    try:
+        person = session.query(Person).filter(Person.login_id == str(login_id)).first()
+        if person:
+            return None, "Login id unavailable"
+        else:
+            return "Login id available", None
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+
+
+def get_person_by_login_id_and_name(session, login_id, first_name):
     try:
         person = session.query(Person).filter(Person.login_id == str(login_id)).first()
         if person and person.first_name == first_name:
