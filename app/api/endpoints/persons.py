@@ -35,3 +35,11 @@ def persons_fetch(first_name: str = None,
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
+
+
+@persons_router.post("/persons/email")
+def add_email_to_(email: str):
+    response, error = get_persons(first_name=first_name, last_name=last_name)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response
