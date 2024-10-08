@@ -1,7 +1,8 @@
 from datetime import datetime
 from uuid import uuid4
 from app.db.database import db
-
+from smtp import new_book_notification
+import requests
 
 def get_books(admin_id, title, category, publisher, author, location, year):
     publishers_data, _ = db.get_publishers()
@@ -187,3 +188,57 @@ def edit_book(admin_id, book_data):
                                              price=book_data.get("price"))
 
     return book_data, error
+
+# This notifies subscribed students about new releases
+
+def student_notify(book_data):
+    subscribed_persons, error = db.get_subscribed_persons()
+    if subscribed_persons:
+        for person in subscribed_persons:
+            new_book_notification(receiver_email=person.get("email"), receiver_name=person.get("name"), book_name=book_data.get("name"))
+
+# Book recommendation
+
+def recommend_books(book_data, admin_id):
+
+    # Book and person location fetch
+
+    admin_info, error = db.get_admin(admin_id)
+    book_info, error = db.get_book_info(book_id=book_data.get("book_id"), person_location=admin_info.get("role"))
+    book_title = book_info.get("title")
+
+    # Search related title trough Google API
+
+    if not error:
+        languages=["ro", "en"]
+        all_books = []
+        duplicate = False
+        base_url = "https://www.googleapis.com/books/v1/volumes?q={title}&langRestrict={lang}&maxResults=5"
+
+        for lang in languages:
+            url = base_url.format(title=book_title, lang=lang)
+            response = requests.get(url)
+            if response.status_code == 200:
+                books = response.json().get("items", [])
+                for book in books:
+                    volume_info = book.get('volumeInfo', {})
+                    book_title = volume_info.get('title', 'Unknown title')
+                    book_author = volume_info.get('authors', ['Unknown author'])
+
+                    duplicate = False
+
+                    for index in all_books:
+                        if index.get("title") == book_title:
+                            duplicate = True
+                            break
+
+                    if not duplicate:
+                        all_books.append({
+                            "title": book_title,
+                            "author": book_author
+                        })
+
+        return all_books, None
+    else:
+        return None, "Error fetching related titles to this book."
+
