@@ -69,9 +69,16 @@ class BookResponse(BaseModel):
     class Config:
         form_attributes = True
 
+# Book recommendation
+
 class BookRecom(BaseModel):
     book_id: UUID
 
 class BookRecomReturn(BaseModel):
     title: str
     author: List[str]
+
+# Book wishlist
+
+class WishlistPost(BaseModel):
+    book_id: str

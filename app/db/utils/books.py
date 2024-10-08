@@ -1,7 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func, String
 
-from app.db.models.books import KinderBooks, HighBooks
+from app.db.models.books import KinderBooks, HighBooks, Wishlist
 from app.db.models.authors import Authors
 from app.db.models.publishers import Publishers
 from sqlalchemy import func, String
@@ -280,3 +280,18 @@ def get_book_info(session, book_id, person_location):
         error = str(e.__dict__['orig'])
         print(error)
         return None, error
+
+# Wishlist functions
+
+def get_student_wishlist(session, student_id):
+    try:
+        query = session.query(Wishlist).filter(Wishlist.student_id == student_id).all()
+        if query:
+            return Wishlist.serialize_wishlist(query), None
+        else:
+            return None, "User does not have any books in wishlist."
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+

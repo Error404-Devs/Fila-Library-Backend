@@ -49,3 +49,5 @@ class Inventory(Base):
             }
             serialized_copies.append(serialized_copy)
         return serialized_copies
+
+

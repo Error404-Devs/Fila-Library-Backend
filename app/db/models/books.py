@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Integer, ForeignKey, TIMESTAMP
+from sqlalchemy import Column, String, Integer, ForeignKey, TIMESTAMP, ARRAY
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.database import Base
@@ -108,6 +108,32 @@ class HighBooks(Base):
                 "price": str(book.price),
                 "UDC": str(book.UDC),
                 "created_at": str(book.created_at)
+            }
+            serialized_books.append(book)
+        return serialized_books
+
+class Wishlist(Base):
+    __tablename__ = "wishlist"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
+    student_id = Column(UUID(as_uuid=True), nullable=False, default=uuid.uuid4)
+    categories = Column(ARRAY(String), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": str(self.id),
+            "student_id": str(self.student_id),
+            "categories": str(self.categories)
+        }
+
+    @staticmethod
+    def serialize_wishlist(books):
+        serialized_books = []
+        for book in books:
+            book = {
+                "id": str(book.id),
+                "student_id": str(book.student_id),
+                "categories": str(book.categories)
             }
             serialized_books.append(book)
         return serialized_books
