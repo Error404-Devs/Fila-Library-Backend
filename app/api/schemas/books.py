@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, Literal
+from typing import Optional, Literal, List
 from uuid import UUID
 
 from pydantic import BaseModel, model_validator
@@ -68,3 +68,10 @@ class BookResponse(BaseModel):
 
     class Config:
         form_attributes = True
+
+class BookRecom(BaseModel):
+    book_id: UUID
+
+class BookRecomReturn(BaseModel):
+    title: str
+    author: List[str]

@@ -76,3 +76,14 @@ def book_edit(data: BookEdit, admin_id: str = Depends(auth_handler.auth_wrapper)
     return response
 
 
+@books_router.get("/books/recommended", response_model=List[BookRecomReturn]) # Needs response model based on frontend needs
+def book_recommend(data: BookRecom, admin_id: str = Depends(auth_handler.auth_wrapper)):
+    book_data = data.model_dump()
+    response, error = recommend_books(admin_id=admin_id, book_data=book_data)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response
+
+
+
+
