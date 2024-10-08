@@ -37,9 +37,17 @@ def persons_fetch(first_name: str = None,
     return response
 
 
-@persons_router.post("/persons/email")
-def add_email_to_(email: str):
-    response, error = get_persons(first_name=first_name, last_name=last_name)
+@persons_router.put("/persons/email")
+def add_email(data: EmailRequest):
+    response, error = add_email_to_account(data)
     if error:
-        raise HTTPException(status_code=500, detail=error)
+        raise HTTPException(status_code=406, detail=error)
+    return response
+
+
+@persons_router.post("/persons/email")
+def confirm_email(token: str):
+    response, error = confirm_account_email(token)
+    if error:
+        raise HTTPException(status_code=406, detail=error)
     return response

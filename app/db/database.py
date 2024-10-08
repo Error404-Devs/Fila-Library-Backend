@@ -16,6 +16,7 @@ from app.db.utils.publishers import *
 from app.db.utils.inventory import *
 from app.db.utils.borrows import *
 from app.db.utils.persons import *
+from app.db.utils.email_tokens import *
 
 engine = create_engine(f'postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{DB_PORT}/{DB_NAME}')
 
@@ -332,6 +333,11 @@ class DataBase:
         with session_scope() as session:
             return get_persons(session, first_name=first_name, last_name=last_name)
 
+    @staticmethod
+    def add_email_to_account(id, email):
+        with session_scope() as session:
+            return add_email_to_account(session=session, id=id, email=email)
+
     # STATISTICS
 
     @staticmethod
@@ -349,11 +355,31 @@ class DataBase:
         with session_scope() as session:
             return get_enrolled_persons(session=session, month=month, year=year, day=day)
 
+
+
     # NOTIFICATIONS
 
     @staticmethod
     def get_subscribed_persons():
         with session_scope() as session:
             return get_subscribed_persons(session=session)
+
+    # TOKENS
+
+    @staticmethod
+    def get_email_token(id):
+        with session_scope() as session:
+            return get_email_token(session=session, id=id)
+
+    @staticmethod
+    def create_email_token(id, user_id, expires_at, email):
+        with session_scope() as session:
+            return create_email_token(session=session, id=id, user_id=user_id, expires_at=expires_at, email=email)
+
+    @staticmethod
+    def delete_email_token(id):
+        with session_scope() as session:
+            return delete_email_token(session=session, id=id)
+
 
 db = DataBase()
