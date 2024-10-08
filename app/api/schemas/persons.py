@@ -33,3 +33,8 @@ class NewStudent(BaseModel):
     group: str
     address: str
     phone_number: str
+
+
+class EmailRequest(BaseModel):
+    login_id: str
+    email: str

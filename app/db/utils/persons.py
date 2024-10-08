@@ -3,6 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.db.models.persons import Person
 from sqlalchemy import extract
 
+
 def get_person(session, id):
     try:
         person = session.query(Person).filter(Person.id == id).first()
@@ -136,6 +137,19 @@ def get_subscribed_persons(session):
             return Person.serialize_persons(query), None
         else:
             return [], None
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+def add_email_to_account(session, id, email):
+    try:
+        person = session.query(Person).filter(Person.id == id).first()
+        if person:
+            person.email = email
+            return Person.serialize(person), None
+        else:
+            return None, "No person found"
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)

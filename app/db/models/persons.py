@@ -33,6 +33,7 @@ class Person(Base):
             "address": self.address,
             "phone_number": self.phone_number,
             "location": self.location,
+            "email": self.email,
             "created_at": self.created_at
         }
 
@@ -51,6 +52,7 @@ class Person(Base):
                 "address": str(person.address),
                 "phone_number": str(person.phone_number),
                 "location": str(person.location),
+                "email": str(person.email),
                 "created_at": str(person.created_at)
             }
         return serialized_persons

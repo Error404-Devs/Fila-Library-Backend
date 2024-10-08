@@ -1,7 +1,11 @@
+import re
 from app.db.database import db
 from uuid import uuid4
 from datetime import datetime
 import random
+
+from app.api.utils.email_tokens import create_confirmation_token
+from app.core.smtp import send_confirmation_email
 
 
 def create_person(person_data, admin_id):
@@ -55,3 +59,47 @@ def get_persons(first_name, last_name):
         return persons_data, None
     else:
         return None, error
+
+
+def add_email_to_account(data):
+    login_id = data.login_id
+    email = data.email
+
+    # Regex to separate alphabetic and numeric parts
+    match = re.match(r"([a-zA-Z]+)(\d+)", login_id)
+
+    if match:
+        first_name = match.group(1)
+        number = match.group(2)
+
+    # Verify if person is in database
+    person, error = db.get_person_by_login_id_and_name(number, first_name)
+
+    if person:
+        valid_email_regex = r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+
+        if not re.search(valid_email_regex, email):
+            return None, "Invalid email"
+        else:
+            response, error = create_confirmation_token(person_id=person.get("id"), email=email)
+
+            if response:
+                send_confirmation_email(receiver_email=response.email, token=response.id)
+
+        return response, error
+    else:
+        return None, error
+
+
+def confirm_account_email(token):
+    token_data, error = db.get_email_token(token)
+
+    if token_data:
+        response, error = db.add_email_to_account(token_data.get("user_id"),
+                                                  token_data.get("email"))
+
+        if response:
+            _, error = db.delete_email_token(token)
+
+    if not error:
+        return "Email confirmed", None
