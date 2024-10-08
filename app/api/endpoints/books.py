@@ -75,15 +75,39 @@ def book_edit(data: BookEdit, admin_id: str = Depends(auth_handler.auth_wrapper)
         raise HTTPException(status_code=500, detail=error)
     return response
 
+# Book recommendation endpoint
 
-@books_router.get("/books/recommended", response_model=List[BookRecomReturn]) # Needs response model based on frontend needs
-def book_recommend(data: BookRecom, admin_id: str = Depends(auth_handler.auth_wrapper)):
+@books_router.get("/books/recommended", response_model=List[BookRecomReturn])
+def book_recommend(data: BookRecom):
     book_data = data.model_dump()
     response, error = recommend_books(admin_id=admin_id, book_data=book_data)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
 
+# Book wishlist endpoint
 
+@books_router.get("/books/wishlist")
+def get_wishlist(admin_id: str = Depends(auth_handler.auth_wrapper)):
+    response, error = get_student_wishlist(student_id=student_id)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response
+
+@books_router.post("/books/wishlist")
+def post_wishlist(data:WishlistPost ,admin_id: str = Depends(auth_handler.auth_wrapper)):
+    book_id = data.model_dump().get("book_id")
+    response, error = create_student_wish(book_id=book_id, student_id=student_id)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response
+
+@books_router.delete("/books/wishlist")
+def delete_wishlist(data:WishlistPost ,admin_id: str = Depends(auth_handler.auth_wrapper)):
+    book_id = data.model_dump().get("book_id")
+    response, error = delete_student_wish(book_id=book_id, student_id=student_id)
+    if error:
+        raise HTTPException(status_code=500, detail=error)
+    return response
 
 
