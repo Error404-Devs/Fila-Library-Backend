@@ -199,12 +199,11 @@ def student_notify(book_data):
 
 # Book recommendation
 
-def recommend_books(book_data, admin_id):
+def recommend_books(book_data):
 
     # Book and person location fetch
 
-    admin_info, error = db.get_admin(admin_id)
-    book_info, error = db.get_book_info(book_id=book_data.get("book_id"), person_location=admin_info.get("role"))
+    book_info, error = db.get_book_info(book_id=book_data.get("book_id"), person_location="kinder")
     book_title = book_info.get("title")
 
     # Search related title trough Google API
@@ -241,4 +240,18 @@ def recommend_books(book_data, admin_id):
         return all_books, None
     else:
         return None, "Error fetching related titles to this book."
+
+# Book wishlist
+
+def get_student_wishlist(student_id):
+    return db.get_student_wishlist(student_id=student_id)
+
+def create_student_wish(book_id, student_id):
+    wish_id = str(uuid4())
+
+    return db.create_student_wish(book_id=book_id, student_id=student_id, wish_id=wish_id)
+
+def delete_student_wish(book_id, student_id):
+
+    return db.delete_student_wish(book_id=book_id, student_id=student_id)
 
