@@ -295,25 +295,29 @@ def get_student_wishlist(session, student_id):
         print(error)
         return None, error
 
-def create_student_wish(session, student_id, ):
+def create_student_wish(session, student_id, wish_id, book_id):
     try:
-        query = session.query(Wishlist).filter(Wishlist.student_id == student_id).all()
-        if query:
-            return Wishlist.serialize_wishlist(query), None
-        else:
-            return None, "User does not have any books in wishlist."
+        obj = Wishlist(id=wish_id,
+                        student_id=student_id,
+                        book_id=book_id)
+
+        session.add(obj)
+        return obj.serialize(), None
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)
         return None, error
 
-def delete_student_wish(session, student_id):
+def delete_student_wish(session, wish_id):
     try:
-        query = session.query(Wishlist).filter(Wishlist.student_id == student_id).all()
+        query = session.query(Wishlist).filter(Wishlist.id == wish_id).first()
         if query:
-            return Wishlist.serialize_wishlist(query), None
+            session.delete(query)
+            return query.serialize(), None
         else:
-            return None, "User does not have any books in wishlist."
+            return None, "Copy from inventory not found"
+
+
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         print(error)

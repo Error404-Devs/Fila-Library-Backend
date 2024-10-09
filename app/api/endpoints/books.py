@@ -86,25 +86,26 @@ def book_recommend(book_id: UUID = None):
 
 # Book wishlist endpoint
 
-@books_router.get("/books/wishlist")
-def get_wishlist(admin_id: str = Depends(auth_handler.auth_wrapper)):
+@books_router.get("/books/wishlist", response_model=List[WishlistResponse])
+def get_wishlist(student_id: UUID = None):
     response, error = get_student_wishlist(student_id=student_id)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
 
 @books_router.post("/books/wishlist")
-def post_wishlist(data:WishlistPost ,admin_id: str = Depends(auth_handler.auth_wrapper)):
+def post_wishlist(data:WishlistPost):
     book_id = data.model_dump().get("book_id")
+    student_id = data.model_dump().get("student_id")
     response, error = create_student_wish(book_id=book_id, student_id=student_id)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
 
 @books_router.delete("/books/wishlist")
-def delete_wishlist(data:WishlistPost ,admin_id: str = Depends(auth_handler.auth_wrapper)):
-    book_id = data.model_dump().get("book_id")
-    response, error = delete_student_wish(book_id=book_id, student_id=student_id)
+def delete_wishlist(data:WishlistDel, admin_id: str = Depends(auth_handler.auth_wrapper)):
+    wish_id = data.model_dump().get("wish_id")
+    response, error = delete_student_wish(wish_id=wish_id)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response

@@ -166,6 +166,11 @@ class DataBase:
             return get_authors(session)
 
     @staticmethod
+    def get_author_by_id(author_id):
+        with session_scope() as session:
+            return get_author_by_id(session=session, author_id=author_id)
+
+    @staticmethod
     def create_author(author_id, first_name, last_name):
         with session_scope() as session:
             return create_author(session=session,
@@ -359,19 +364,19 @@ class DataBase:
     # WISHLIST
 
     @staticmethod
-    def get_student_wishlist(person_id):
+    def get_student_wishlist(student_id):
         with session_scope() as session:
-            return get_student_wishlist(session=session, person_id=person_id)
+            return get_student_wishlist(session=session, student_id=student_id)
 
     @staticmethod
-    def create_student_wish(person_id, wish_id, book_id):
+    def create_student_wish(student_id, wish_id, book_id):
         with session_scope() as session:
-            return create_student_wish(session=session, person_id=person_id, wish_id=wish_id, book_id=book_id)
+            return create_student_wish(session=session, student_id=student_id, wish_id=wish_id, book_id=book_id)
 
     @staticmethod
-    def delete_student_wish(book_id, person_id):
+    def delete_student_wish(wish_id):
         with session_scope() as session:
-            return delete_student_wish(session=session, person_id=person_id, book_id=book_id)
+            return delete_student_wish(session=session, wish_id=wish_id)
 
 
     # NOTIFICATIONS

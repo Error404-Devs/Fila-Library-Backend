@@ -15,6 +15,20 @@ def get_authors(session):
         return None, error
 
 
+def get_author_by_id(session, author_id):
+    try:
+        author = session.query(Authors).filter(Authors.id == author_id).first()
+        if author:
+            return Authors.serialize(author), None
+        else:
+            return None, "No author found"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+
+
 def create_author(session, id, first_name, last_name):
     try:
         obj = Authors(id=id,

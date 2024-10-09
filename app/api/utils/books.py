@@ -244,14 +244,30 @@ def recommend_books(book_id):
 # Book wishlist
 
 def get_student_wishlist(student_id):
-    return db.get_student_wishlist(student_id=student_id)
+    student_wishlist, error = db.get_student_wishlist(student_id=student_id)
+    if not error:
+        for wish in student_wishlist:
+            book_info, error = db.get_book_info(wish.get("book_id"), "kinder")
+            wish["book_name"] = book_info.get("title")
+
+            # Fetching author name
+
+            author_id = book_info.get("author_id")
+            author_info, error = db.get_author_by_id(book_info.get("author_id"))
+            a_author_first = author_info.get("first_name")
+            a_author_last = author_info.get("last_name")
+
+            wish["book_author"] = a_author_first + a_author_last
+        return student_wishlist, None
+    else:
+        return None, error
 
 def create_student_wish(book_id, student_id):
     wish_id = str(uuid4())
 
     return db.create_student_wish(book_id=book_id, student_id=student_id, wish_id=wish_id)
 
-def delete_student_wish(book_id, student_id):
+def delete_student_wish(wish_id):
 
-    return db.delete_student_wish(book_id=book_id, student_id=student_id)
+    return db.delete_student_wish(wish_id=wish_id)
 

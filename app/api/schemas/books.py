@@ -81,4 +81,16 @@ class BookRecomReturn(BaseModel):
 # Book wishlist
 
 class WishlistPost(BaseModel):
-    book_id: str
+    book_id: UUID
+    student_id: UUID
+
+class WishlistDel(BaseModel):
+    wish_id: UUID
+
+class WishlistResponse(BaseModel):
+    id: UUID
+    student_id: UUID
+    book_id: UUID
+    book_name: str
+    book_author: str
+
