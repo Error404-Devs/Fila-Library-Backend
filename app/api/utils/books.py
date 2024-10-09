@@ -199,11 +199,11 @@ def student_notify(book_data):
 
 # Book recommendation
 
-def recommend_books(book_data):
+def recommend_books(book_id):
 
     # Book and person location fetch
 
-    book_info, error = db.get_book_info(book_id=book_data.get("book_id"), person_location="kinder")
+    book_info, error = db.get_book_info(book_id=book_id, person_location="kinder")
     book_title = book_info.get("title")
 
     # Search related title trough Google API

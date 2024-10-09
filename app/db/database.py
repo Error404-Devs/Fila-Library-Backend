@@ -361,17 +361,17 @@ class DataBase:
     @staticmethod
     def get_student_wishlist(person_id):
         with session_scope() as session:
-            return get_enrolled_persons(session=session, person_id=person_id)
+            return get_student_wishlist(session=session, person_id=person_id)
 
     @staticmethod
     def create_student_wish(person_id, wish_id, book_id):
         with session_scope() as session:
-            return get_enrolled_persons(session=session, person_id=person_id, wish_id=wish_id, book_id=book_id)
+            return create_student_wish(session=session, person_id=person_id, wish_id=wish_id, book_id=book_id)
 
     @staticmethod
     def delete_student_wish(book_id, person_id):
         with session_scope() as session:
-            return get_enrolled_persons(session=session, person_id=person_id, book_id=book_id)
+            return delete_student_wish(session=session, person_id=person_id, book_id=book_id)
 
 
     # NOTIFICATIONS

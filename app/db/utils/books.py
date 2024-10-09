@@ -295,3 +295,27 @@ def get_student_wishlist(session, student_id):
         print(error)
         return None, error
 
+def create_student_wish(session, student_id, ):
+    try:
+        query = session.query(Wishlist).filter(Wishlist.student_id == student_id).all()
+        if query:
+            return Wishlist.serialize_wishlist(query), None
+        else:
+            return None, "User does not have any books in wishlist."
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+def delete_student_wish(session, student_id):
+    try:
+        query = session.query(Wishlist).filter(Wishlist.student_id == student_id).all()
+        if query:
+            return Wishlist.serialize_wishlist(query), None
+        else:
+            return None, "User does not have any books in wishlist."
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+

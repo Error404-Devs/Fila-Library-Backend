@@ -78,9 +78,8 @@ def book_edit(data: BookEdit, admin_id: str = Depends(auth_handler.auth_wrapper)
 # Book recommendation endpoint
 
 @books_router.get("/books/recommended", response_model=List[BookRecomReturn])
-def book_recommend(data: BookRecom):
-    book_data = data.model_dump()
-    response, error = recommend_books(book_data=book_data)
+def book_recommend(book_id: UUID = None):
+    response, error = recommend_books(book_id=book_id)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response
