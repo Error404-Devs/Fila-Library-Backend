@@ -116,14 +116,14 @@ class Wishlist(Base):
     __tablename__ = "wishlist"
 
     id = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
-    student_id = Column(UUID(as_uuid=True), nullable=False, default=uuid.uuid4)
-    categories = Column(ARRAY(String), nullable=False)
+    student_id = Column(UUID(as_uuid=True), ForeignKey("persons.id"), nullable=False, default=uuid.uuid4)
+    book_id = Column(UUID(as_uuid=True), nullable=False)
 
     def serialize(self):
         return {
             "id": str(self.id),
             "student_id": str(self.student_id),
-            "categories": str(self.categories)
+            "book_id": str(self.book_id)
         }
 
     @staticmethod
@@ -133,7 +133,7 @@ class Wishlist(Base):
             book = {
                 "id": str(book.id),
                 "student_id": str(book.student_id),
-                "categories": str(book.categories)
+                "book_id": str(book.book_id)
             }
             serialized_books.append(book)
         return serialized_books
