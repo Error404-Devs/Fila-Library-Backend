@@ -204,11 +204,12 @@ def recommend_books(book_id):
     # Book and person location fetch
 
     book_info, error = db.get_book_info(book_id=book_id, person_location="kinder")
-    book_title = book_info.get("title")
+
 
     # Search related title trough Google API
 
     if not error:
+        book_title = book_info.get("title")
         languages=["ro", "en"]
         all_books = []
         duplicate = False
