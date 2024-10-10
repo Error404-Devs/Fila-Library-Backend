@@ -378,6 +378,10 @@ class DataBase:
         with session_scope() as session:
             return delete_student_wish(session=session, wish_id=wish_id)
 
+    @staticmethod
+    def get_interested_persons(book_id):
+        with session_scope() as session:
+            return get_interested_persons(session=session, book_id=book_id)
 
     # NOTIFICATIONS
 

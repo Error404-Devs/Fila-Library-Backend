@@ -3,7 +3,7 @@ from uuid import uuid4
 import re
 
 from app.db.database import db
-
+from app.core.smtp import book_returned_available
 
 def create_borrow(borrow_data):
     borrow_id = str(uuid4())
@@ -21,12 +21,28 @@ def create_borrow(borrow_data):
     else:
         return None, error
 
-def create_return(return_data):
+async def create_return(return_data):
     borrow_id = return_data.get("borrow_id")
     borrow_data, error = db.get_borrow_info(borrow_id)
     if not error:
+        book_id = borrow_data.get("book_id")
+
+        # Checking if book is in someone wishlist and send them a notification if exist
+
+        wishlist, error = db.get_interested_persons(book_id=book_id)
+
+        if wishlist:
+            for wish in wishlist:
+                # Fetching user and book info
+                user, error = db.get_person(wish.get("student_id"))
+                book, error = db.get_book_info(wish.get("book_id"), "kinder")
+                if user.get("email"):
+                    await book_returned_available(receiver_email=user.get("email"),
+                                                  book_name=book.get("title"),
+                                                  receiver_name=user.get("first_name")+user.get("last_name"))
+
         # Update inventory copy
-        borrow_inventory, _ = db.update_inventory_copy(book_id=borrow_data.get("book_id"), status=False)
+        borrow_inventory, _ = db.update_inventory_copy(book_id=book_id, status=False)
         returned_object, _ = db.return_book(borrow_id)
         returned_object["inventory_id"] = borrow_inventory
         return returned_object, None
