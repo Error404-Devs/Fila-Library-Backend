@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import uuid4
 from app.db.database import db
-from smtp import new_book_notification
+from app.core.smtp import new_book_notification
 import requests
 
 def get_books(admin_id, title, category, publisher, author, location, year):

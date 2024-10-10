@@ -19,9 +19,9 @@ def book_borrow(data: BorrowData):
 
 
 @borrows_router.post("/return", response_model=Borrow)
-def book_return(data: ReturnData, admin_id: str = Depends(auth_handler.auth_wrapper)):
+async def book_return(data: ReturnData, admin_id: str = Depends(auth_handler.auth_wrapper)):
     return_data = data.model_dump()
-    response, error = create_return(return_data)
+    response, error = await create_return(return_data)
     if error:
         raise HTTPException(status_code=500, detail=error)
     return response

@@ -323,3 +323,16 @@ def delete_student_wish(session, wish_id):
         print(error)
         return None, error
 
+def get_interested_persons(session, book_id):
+    try:
+        query = session.query(Wishlist).filter(Wishlist.book_id == book_id).all()
+        if query:
+            return Wishlist.serialize_wishlist(query), None
+        else:
+            return None, "This book isn't in anyone wishlist."
+
+
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
