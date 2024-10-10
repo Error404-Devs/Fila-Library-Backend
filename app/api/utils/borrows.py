@@ -58,7 +58,8 @@ def get_student_borrows(login_id):
                 # Get author data
                 author_data = authors_data[book_info.get("author_id")]
                 borrow["author_name"] = author_data.get("first_name") + author_data.get("last_name")
-                del borrow["book_id"], borrow["person_id"]
+                borrow["id"] = borrow["book_id"]
+                del borrow["person_id"]
         else:
             borrows: []
 
