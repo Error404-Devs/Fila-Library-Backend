@@ -1,6 +1,8 @@
 from app.db.database import db
 import calendar, datetime
 
+import openpyxl
+
 
 def get_statistics(month, year):
     statistics = {}
@@ -104,3 +106,51 @@ def get_statistics(month, year):
     statistics["monthly"] = monthly
 
     return statistics, None
+
+
+def download_statistics(month, year):
+    wb = openpyxl.load_workbook("app/core/templates/template.xlsx")
+
+    ws = wb.active
+
+    statistics, error = get_statistics(month, year)
+
+    print('Total number of rows: '+str(ws.max_row)+'. And total number of columns: '+str(ws.max_column))
+
+    template_headers = {
+        "total_readers": "B",
+        "workers": "C",
+        "farmers": "D",
+        "tehnicians": "E",
+        "elevi": "F",
+        "students": "G",
+        "intelectuals": "H",
+        "homestay": "I",
+        "other": "J",
+        "under_14": "K",
+        "over_14": "L",
+        "male_readers": "M",
+        "female_readers": "N",
+        "frequency": "O",
+        "actions": "P",
+        "participations": "Q"
+    }
+
+    daily_statistics = statistics.get("daily")
+
+    for day in daily_statistics:
+        for field in daily_statistics.get(day):
+            if field != "enrolled_persons":
+                cell = template_headers[field] + f"{day+4}"
+                value = daily_statistics.get(day)[field]
+
+                if int(value) == 0:
+                    value = ""
+
+                ws[cell] = value
+            else:
+                pass
+
+    wb.save("app/core/files/file.xlsx")
+
+    return None, None
