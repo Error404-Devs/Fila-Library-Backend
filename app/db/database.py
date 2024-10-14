@@ -393,6 +393,11 @@ class DataBase:
     # TOKENS
 
     @staticmethod
+    def get_email_tokens():
+        with session_scope() as session:
+            return get_email_tokens(session=session)
+
+    @staticmethod
     def get_email_token(id):
         with session_scope() as session:
             return get_email_token(session=session, id=id)
