@@ -103,7 +103,7 @@ def post_wishlist(data:WishlistPost):
     return response
 
 @books_router.delete("/books/wishlist")
-def delete_wishlist(data:WishlistDel, admin_id: str = Depends(auth_handler.auth_wrapper)):
+def delete_wishlist(data:WishlistDel):
     wish_id = data.model_dump().get("wish_id")
     response, error = delete_student_wish(wish_id=wish_id)
     if error:
