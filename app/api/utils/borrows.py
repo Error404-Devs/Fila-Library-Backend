@@ -5,6 +5,7 @@ import re
 from app.db.database import db
 from app.core.smtp import book_returned_available
 
+
 def create_borrow(borrow_data):
     borrow_id = str(uuid4())
     # Update book from inventory status
@@ -133,12 +134,13 @@ def get_student_borrows_overdue(admin_id):
                 borrow["book_name"] = book_info.get("title")
                 returned_borrows.append(borrow)
     return returned_borrows, None
+
+
 def get_book_borrowers(book_id):
     book_borrows, error = db.get_book_borrows(book_id)
     if book_borrows:
         persons = []
         for item in book_borrows:
-            print(item.get("status"))
             if item.get("status") == "True":
                 person_data, _ = db.get_person(item.get("person_id"))
                 if person_data:

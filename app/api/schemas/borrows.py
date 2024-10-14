@@ -63,6 +63,7 @@ class BookBorrowers(BaseModel):
     id: str
     first_name: Optional[str]
     last_name: Optional[str]
+    login_id: Optional[int]
     gender: Optional[str]
     year: Optional[int]
     group: Optional[str]
