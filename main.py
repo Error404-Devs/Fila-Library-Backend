@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.scheduler import scheduler
+
 from app.api.endpoints.books import books_router
 from app.api.endpoints.auth import auth_router
 from app.api.endpoints.authors import authors_router
@@ -35,5 +37,7 @@ app.include_router(statistics_router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn
+
+    scheduler.start()
 
     uvicorn.run(app, host="0.0.0.0", port=8000)

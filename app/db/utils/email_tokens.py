@@ -2,6 +2,19 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.db.models.email_tokens import EmailTokens
 
 
+def get_email_tokens(session):
+    try:
+        tokens = session.query(EmailTokens).all()
+        if tokens:
+            return EmailTokens.serialize_email_tokens(tokens), None
+        else:
+            return None, "No tokens found"
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        print(error)
+        return None, error
+
+
 def get_email_token(session, id):
     try:
         token = session.query(EmailTokens).filter(EmailTokens.id == id).first()
