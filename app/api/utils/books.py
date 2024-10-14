@@ -4,6 +4,7 @@ from app.db.database import db
 from app.core.smtp import new_book_notification
 import requests
 
+
 def get_books(admin_id, title, category, publisher, author, location, year):
     publishers_data, _ = db.get_publishers()
     collections_data, _ = db.get_collections()
@@ -64,6 +65,7 @@ def get_books(admin_id, title, category, publisher, author, location, year):
         book["collection"] = collection_name
         book["author"] = author_name
     return sorted_books_data, None
+
 
 def get_books_user(title):
     books_data, error = db.get_kinder_books(title=title,
@@ -254,19 +256,27 @@ def get_student_wishlist(student_id):
             # Fetching author name
 
             author_id = book_info.get("author_id")
-            author_info, error = db.get_author_by_id(book_info.get("author_id"))
-            a_author_first = author_info.get("first_name")
-            a_author_last = author_info.get("last_name")
+
+            if author_id != "None":
+                author_info, error = db.get_author_by_id(author_id)
+
+                a_author_first = author_info.get("first_name")
+                a_author_last = author_info.get("last_name")
+            else:
+                a_author_first = ""
+                a_author_last = ""
 
             wish["book_author"] = a_author_first + a_author_last
         return student_wishlist, None
     else:
         return None, error
 
+
 def create_student_wish(book_id, student_id):
     wish_id = str(uuid4())
 
     return db.create_student_wish(book_id=book_id, student_id=student_id, wish_id=wish_id)
+
 
 def delete_student_wish(wish_id):
 
