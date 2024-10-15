@@ -5,6 +5,7 @@ from datetime import datetime
 import random
 
 from app.api.utils.email_tokens import create_confirmation_token
+from app.api.utils.borrows import get_student_borrows
 from app.core.smtp import send_confirmation_email
 
 
@@ -55,7 +56,17 @@ def edit_person(person_data):
 
 def get_persons(first_name, last_name):
     persons_data, error = db.get_persons(first_name=first_name, last_name=last_name)
+
     if not error:
+        for person_id in persons_data:
+            person_data = persons_data[person_id]
+            books_borrowed, error = get_student_borrows(
+                str(person_data.get("first_name")) + str(person_data.get("login_id"))
+            )
+
+            if not error:
+                person_data["books_borrowed"] = books_borrowed["items"]
+
         return persons_data, None
     else:
         return None, error
