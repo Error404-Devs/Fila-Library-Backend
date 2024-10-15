@@ -60,12 +60,14 @@ def get_persons(first_name, last_name):
     if not error:
         for person_id in persons_data:
             person_data = persons_data[person_id]
-            books_borrowed, error = get_student_borrows(
-                str(person_data.get("first_name")) + str(person_data.get("login_id"))
-            )
+            first_name = str(person_data.get("first_name"))
+            login_id = str(person_data.get("login_id"))
 
-            if not error:
-                person_data["books_borrowed"] = books_borrowed["items"]
+            if first_name and login_id:
+                books_borrowed, error = get_student_borrows(first_name + login_id)
+
+                if not error:
+                    person_data["books_borrowed"] = books_borrowed["items"]
 
         return persons_data, None
     else:
