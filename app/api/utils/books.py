@@ -215,7 +215,7 @@ def recommend_books(book_id):
         languages=["ro", "en"]
         all_books = []
         duplicate = False
-        base_url = "https://www.googleapis.com/books/v1/volumes?q={title}&langRestrict={lang}&maxResults=5"
+        base_url = "https://www.googleapis.com/books/v1/volumes?q={title}&langRestrict={lang}&maxResults=5&key=AIzaSyDw4IiePL6iw3Ba4zDglt0NM4N_UfTgsoU"
 
         for lang in languages:
             url = base_url.format(title=book_title, lang=lang)
